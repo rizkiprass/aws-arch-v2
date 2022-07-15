@@ -1,0 +1,21 @@
+Load Balancer
+	-
+	-
+
+Scheduler12345
+
+Networking
+	-Routing between instance, services, subnet, vpc, nat, igw
+
+AWS Backup
+	-Daily, Monthly, Weekly based on tagging
+
+Cloudwatch
+	-create dashboard monitoring
+	-Create alarm
+
+Security group/firewall
+	-Setting up security group on ec2: protocol, port,
+
+System Manager
+	-Install cloudwatch agent on ec2 using system manager
