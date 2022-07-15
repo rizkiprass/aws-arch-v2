@@ -7,7 +7,7 @@ variable "access_key" {
   default = ""
 }
 
-variable "aws_secret_access_key" {
+variable "secret_key" {
   default = ""
 }
 
