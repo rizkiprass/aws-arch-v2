@@ -188,9 +188,9 @@ resource "aws_lb_target_group" "albtg-dev-app" {
 #  }
 
 
-//attach dev-app
-resource "aws_lb_target_group_attachment" "dev-app-attach" {
-  target_group_arn = aws_lb_target_group.albtg-dev-app.arn
-  target_id        = aws_instance.dev-app.id
-  port             = 80
-}
+#//attach dev-app
+#resource "aws_lb_target_group_attachment" "dev-app-attach" {
+#  target_group_arn = aws_lb_target_group.albtg-dev-app.arn
+#  target_id        = aws_instance.prod-app.id
+#  port             = 80
+#}
