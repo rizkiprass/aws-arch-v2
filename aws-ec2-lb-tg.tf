@@ -50,13 +50,13 @@ resource "aws_lb_listener" "ALBListenerwebhttp" {
 #      status_code = "HTTP_301"
 #    }
 #  }
-
-  condition {
-    host_header {
-      values = ["rp-server.site"]
-    }
-  }
-}
+#
+#  condition {
+#    host_header {
+#      values = ["rp-server.site"]
+#    }
+#  }
+#}
 
 resource "aws_lb_listener_rule" "dev-http" {
   listener_arn = aws_lb_listener.ALBListenerwebhttp.arn
