@@ -1,9 +1,9 @@
 //Server web-App
 resource "aws_instance" "prod-app" {
   ami                         = var.ami-ubuntu
-  instance_type               = "t2.micro"
+  instance_type               = "t3.medium"
   associate_public_ip_address = "false"
-  key_name                    = "webserver-key"
+  key_name                    = "webmaster-key"
   subnet_id                   = module.vpc.public_subnets[0]
   iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
   metadata_options {
@@ -18,12 +18,12 @@ resource "aws_instance" "prod-app" {
     encrypted             = true
     delete_on_termination = true
     tags = merge(local.common_tags, {
-      Name = format("%s-%s-app-ebs", var.Customer, var.environment)
+      Name = format("%s-%s-webmaster-ebs", var.Customer, var.environment)
     })
   }
 
   tags = merge(local.common_tags, {
-    Name                = format("%s-%s-web", var.Customer, var.environment),
+    Name                = format("%s-%s-webmaster", var.Customer, var.environment),
     start-stop-schedule = false,
     OS                  = "Ubuntu",
     Backup              = "DailyBackup" # TODO: Set Backup Rules
