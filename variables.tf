@@ -63,14 +63,14 @@ variable "ami-linux2" {
 
 #Tagging Common
 variable "environment" {
-    default = "prod"
+  default = "prod"
 }
 
 variable "environment_dev" {
-    default = "dev"
+  default = "dev"
 }
 variable "project" {
-    default = "Sandbox"
+  default = "Sandbox"
 }
 
 locals {

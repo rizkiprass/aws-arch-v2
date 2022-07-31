@@ -39,42 +39,42 @@
 
 //Prod-App-sg
 resource "aws_security_group" "Prod-App-sg" {
-  name = format("%s-%s-App-sg", var.Customer, var.environment)
+  name        = format("%s-%s-App-sg", var.Customer, var.environment)
   description = format("%s-%s-App-sg", var.Customer, var.environment)
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
   ingress {
     from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    to_port   = 22
+    protocol  = "tcp"
     cidr_blocks = [
-      "10.0.0.0/16"]
+    "10.0.0.0/16"]
     description = "ssh"
   }
 
   ingress {
     from_port = 80
-    to_port = 80
-    protocol = "tcp"
+    to_port   = 80
+    protocol  = "tcp"
     cidr_blocks = [
-      "10.0.0.0/16" ]
+    "10.0.0.0/16"]
     description = "web"
   }
 
   ingress {
     from_port = 443
-    to_port = 443
-    protocol = "tcp"
+    to_port   = 443
+    protocol  = "tcp"
     cidr_blocks = [
-      "10.0.0.0/16" ]
+    "10.0.0.0/16"]
     description = "https"
   }
 
   egress {
     from_port = 0
-    to_port = 0
-    protocol = "-1"
+    to_port   = 0
+    protocol  = "-1"
     cidr_blocks = [
-      "0.0.0.0/0"]
+    "0.0.0.0/0"]
   }
   lifecycle {
     create_before_destroy = true
@@ -87,42 +87,42 @@ resource "aws_security_group" "Prod-App-sg" {
 
 //Dev-App-sg
 resource "aws_security_group" "Dev-App-sg" {
-  name = format("%s-dev-App-sg", var.Customer)
+  name        = format("%s-dev-App-sg", var.Customer)
   description = format("%s-dev-App-sg", var.Customer)
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
   ingress {
     from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    to_port   = 22
+    protocol  = "tcp"
     cidr_blocks = [
-      "10.0.0.0/16"]
+    "10.0.0.0/16"]
     description = "ssh"
   }
 
   ingress {
     from_port = 80
-    to_port = 80
-    protocol = "tcp"
+    to_port   = 80
+    protocol  = "tcp"
     cidr_blocks = [
-      "10.0.0.0/16" ]
+    "10.0.0.0/16"]
     description = "web"
   }
 
   ingress {
     from_port = 443
-    to_port = 443
-    protocol = "tcp"
+    to_port   = 443
+    protocol  = "tcp"
     cidr_blocks = [
-      "10.0.0.0/16" ]
+    "10.0.0.0/16"]
     description = "https"
   }
 
   egress {
     from_port = 0
-    to_port = 0
-    protocol = "-1"
+    to_port   = 0
+    protocol  = "-1"
     cidr_blocks = [
-      "0.0.0.0/0"]
+    "0.0.0.0/0"]
   }
   lifecycle {
     create_before_destroy = true
@@ -135,33 +135,33 @@ resource "aws_security_group" "Dev-App-sg" {
 
 //Prod-Data-sg
 resource "aws_security_group" "Prod-Data-sg" {
-  name = format("%s-%s-Datadb-sg", var.Customer, var.environment)
+  name        = format("%s-%s-Datadb-sg", var.Customer, var.environment)
   description = format("%s-%s-Datadb-sg", var.Customer, var.environment)
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
   ingress {
     from_port = 3306
-    to_port = 3306
-    protocol = "tcp"
+    to_port   = 3306
+    protocol  = "tcp"
     cidr_blocks = [
-      "10.0.10.159/32"]
+    "10.0.10.159/32"]
     description = "mysql"
   }
 
   ingress {
     from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    to_port   = 22
+    protocol  = "tcp"
     cidr_blocks = [
-      "10.0.10.159/32"]
+    "10.0.10.159/32"]
     description = "ssh"
   }
 
   ingress {
     from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    to_port   = 22
+    protocol  = "tcp"
     cidr_blocks = [
-      "10.0.10.44/32"]
+    "10.0.10.44/32"]
     description = "ssh"
   }
 
@@ -176,33 +176,33 @@ resource "aws_security_group" "Prod-Data-sg" {
 
 //alb-sg
 resource "aws_security_group" "web-alb-sg" {
-  name = format("%s-%s-web-alb-sg", var.Customer, var.environment)
+  name        = format("%s-%s-web-alb-sg", var.Customer, var.environment)
   description = format("%s-%s-web-alb-sg", var.Customer, var.environment)
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
   ingress {
     from_port = 80
-    to_port = 80
-    protocol = "tcp"
+    to_port   = 80
+    protocol  = "tcp"
     cidr_blocks = [
-      "0.0.0.0/0" ]
+    "0.0.0.0/0"]
     description = "web"
   }
 
   ingress {
     from_port = 443
-    to_port = 443
-    protocol = "tcp"
+    to_port   = 443
+    protocol  = "tcp"
     cidr_blocks = [
-      "0.0.0.0/0" ]
+    "0.0.0.0/0"]
     description = "https"
   }
 
   egress {
     from_port = 0
-    to_port = 0
-    protocol = "-1"
+    to_port   = 0
+    protocol  = "-1"
     cidr_blocks = [
-      "0.0.0.0/0"]
+    "0.0.0.0/0"]
   }
   lifecycle {
     create_before_destroy = true

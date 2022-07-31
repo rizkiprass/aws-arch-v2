@@ -7,29 +7,29 @@ module "vpc" {
   enable_dns_hostnames             = true
   enable_dhcp_options              = true
   dhcp_options_domain_name_servers = ["AmazonProvidedDNS"]
-  azs = ["us-east-1a", "us-east-1b"]
-  public_subnets = [var.Public_Subnet_AZ1,var.Public_Subnet_AZ2]
-  private_subnets = [var.App_Subnet_AZ1,var.App_Subnet_AZ2]
-  intra_subnets = [var.Data_Subnet_AZ1,var.Data_Subnet_AZ2]
+  azs                              = ["us-east-1a", "us-east-1b"]
+  public_subnets                   = [var.Public_Subnet_AZ1, var.Public_Subnet_AZ2]
+  private_subnets                  = [var.App_Subnet_AZ1, var.App_Subnet_AZ2]
+  intra_subnets                    = [var.Data_Subnet_AZ1, var.Data_Subnet_AZ2]
   # Nat Gateway
   enable_nat_gateway = true
   # Reuse NAT IPs
-  reuse_nat_ips       = true
-  external_nat_ip_ids = [aws_eip.eip-nat-sandbox.id,aws_eip.eip-nat2-sandbox.id]
-  public_subnet_suffix = "web"
+  reuse_nat_ips         = true
+  external_nat_ip_ids   = [aws_eip.eip-nat-sandbox.id, aws_eip.eip-nat2-sandbox.id]
+  public_subnet_suffix  = "web"
   private_subnet_suffix = "app"
-  intra_subnet_suffix = "data"
-  tags                = local.common_tags
+  intra_subnet_suffix   = "data"
+  tags                  = local.common_tags
 }
 
-  resource "aws_eip" "eip-nat-sandbox" {
+resource "aws_eip" "eip-nat-sandbox" {
   vpc = true
   tags = merge(local.common_tags, {
     Name = format("%s-production-EIP", var.project)
   })
 }
 
-  resource "aws_eip" "eip-nat2-sandbox" {
+resource "aws_eip" "eip-nat2-sandbox" {
   vpc = true
   tags = merge(local.common_tags, {
     Name = format("%s-production-EIP2", var.project)
