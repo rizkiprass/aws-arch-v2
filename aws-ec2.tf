@@ -22,6 +22,8 @@ resource "aws_instance" "prod-app" {
     })
   }
 
+  user_data = "${file("install_nginx.sh")}"
+
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-webmaster", var.Customer, var.environment),
     start-stop-schedule = false,
