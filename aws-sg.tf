@@ -69,6 +69,15 @@ resource "aws_security_group" "Prod-App-sg" {
     description = "https"
   }
 
+    ingress {
+    from_port = 80
+    to_port   = 80
+    protocol  = "tcp"
+    cidr_blocks = [
+    "0.0.0.0/0"]
+    description = "http"
+  }
+
   egress {
     from_port = 0
     to_port   = 0
