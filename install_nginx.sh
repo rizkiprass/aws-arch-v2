@@ -13,13 +13,13 @@ sudo mkdir -p $root
 # Create the Nginx server block file:
 sudo tee $block > /dev/null <<EOF
 server {
-        listen 80;
-        listen [::]:80;
+        listen 80 default_server;
+        listen [::]:80 default_server;
 
         root /var/www/html/$domain;
         index index.html index.htm;
 
-        server_name $domain www.$domain;
+        server_name _;
 
         location / {
                 try_files $uri $uri/ =404;
@@ -31,6 +31,8 @@ EOF
 
 # Create the index.html:
 echo "<h1>welcome</h1>" | sudo tee /var/www/html/rp-server.site/index.html
+
+rm /etc/nginx/sites-enabled/default
 
 # Link to make it available
 sudo ln -s $block /etc/nginx/sites-enabled/
