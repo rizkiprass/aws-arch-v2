@@ -35,6 +35,14 @@ resource "aws_eip" "eip-nat2-sandbox" {
     Name = format("%s-production-EIP2", var.project)
   })
 }
+
+resource "aws_eip" "eip-webmaster" {
+  vpc = true
+  instance = aws_instance.prod-app.id
+  tags = merge(local.common_tags, {
+    Name = format("%s-production-EIP-webmaster", var.project)
+  })
+}
 #
 #resource "aws_subnet" "subnet-db-1a" {
 # vpc_id      = module.vpc.vpc_id
