@@ -5,6 +5,6 @@ sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sour
 
 sudo apt update
 
-sudo apt install openjdk-8-jre
+sudo apt install openjdk-8-jre -y
 
 sudo apt install jenkins -y
