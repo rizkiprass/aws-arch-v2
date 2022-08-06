@@ -10,6 +10,8 @@ block="/etc/nginx/sites-available/$domain"
 # Create the Document Root directory
 sudo mkdir -p $root
 
+rm /etc/nginx/sites-available/default
+
 # Create the Nginx server block file:
 sudo tee $block > /dev/null <<EOF
 server {
@@ -32,7 +34,6 @@ EOF
 # Create the index.html:
 echo "<h1>welcome</h1>" | sudo tee /var/www/html/rp-server.site/index.html
 
-mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bkp
 rm /etc/nginx/sites-enabled/default
 
 # Link to make it available
