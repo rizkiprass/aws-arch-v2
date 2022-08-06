@@ -221,3 +221,51 @@ resource "aws_security_group" "web-alb-sg" {
     Name = format("%s-%s-web-alb-sg", var.Customer, var.environment)
   })
 }
+
+//Jenkins-App-sg
+resource "aws_security_group" "Jenkins-App-sg" {
+  name        = format("%s-jenkins-app-sg", var.Customer)
+  description = format("%s-jenkins-app-sg", var.Customer)
+  vpc_id      = module.vpc.vpc_id
+  ingress {
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+    cidr_blocks = [
+    "10.0.0.0/16"]
+    description = "ssh"
+  }
+
+  ingress {
+    from_port = 80
+    to_port   = 80
+    protocol  = "tcp"
+    cidr_blocks = [
+    "10.0.0.0/16"]
+    description = "web"
+  }
+
+  ingress {
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+    cidr_blocks = [
+    "10.0.0.0/16"]
+    description = "https"
+  }
+
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    cidr_blocks = [
+    "0.0.0.0/0"]
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = merge(local.common_tags, {
+    Name = format("%s-jenkins-sg", var.Customer)
+  })
+}
