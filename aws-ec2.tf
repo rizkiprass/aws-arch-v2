@@ -25,7 +25,7 @@ resource "aws_instance" "prod-app" {
   user_data = "${file("install_nginx.sh")}"
 
   lifecycle {
-    ignore_changes = ["associate_public_ip_address"]
+    ignore_changes = [associate_public_ip_address]
   }
 
   tags = merge(local.common_tags, {
