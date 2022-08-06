@@ -22,7 +22,11 @@ resource "aws_instance" "prod-app" {
     })
   }
 
-  //user_data = "${file("install_nginx.sh")}"
+  user_data = "${file("install_nginx.sh")}"
+
+//  lifecycle {
+//    ignore_changes = [user_data]
+//  }
 
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-webmaster", var.Customer, var.environment),
@@ -55,6 +59,8 @@ resource "aws_instance" "jenkins-app" {
       Name = format("%s-%s-jenkins-ebs", var.Customer, var.environment)
     })
   }
+
+  user_data = "${file("install_jenkins.sh")}"
 
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-jenkins", var.Customer, var.environment),
