@@ -62,6 +62,10 @@ resource "aws_instance" "jenkins-app" {
 
   user_data = "${file("install_jenkins.sh")}"
 
+  lifecycle {
+    ignore_changes = [associate_public_ip_address]
+  }
+
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-jenkins", var.Customer, var.environment),
     start-stop-schedule = false,
