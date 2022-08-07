@@ -1,16 +1,16 @@
 //Server web-App
-resource "aws_instance" "prod-app" {
+resource "aws_instance" "web-app" {
   ami                         = var.ami-ubuntu
   instance_type               = "t3.medium"
   associate_public_ip_address = "false"
   key_name                    = "webmaster-key"
-  subnet_id                   = module.vpc.public_subnets[0]
+  subnet_id                   = module.vpc.private_subnets[1]
   iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
   metadata_options {
     http_endpoint = "enabled"
     http_tokens   = "required"
   }
-  vpc_security_group_ids = [aws_security_group.Prod-App-sg.id]
+  vpc_security_group_ids = [aws_security_group.web-sg.id]
   root_block_device {
     volume_size           = 50
     volume_type           = "gp3"
@@ -22,7 +22,7 @@ resource "aws_instance" "prod-app" {
     })
   }
 
-  user_data = "${file("install_nginx.sh")}"
+  user_data = file("install_nginx.sh")
 
   lifecycle {
     ignore_changes = [associate_public_ip_address]
@@ -32,6 +32,44 @@ resource "aws_instance" "prod-app" {
     Name                = format("%s-%s-webmaster", var.Customer, var.environment),
     start-stop-schedule = false,
     OS                  = "Ubuntu",
+    Backup              = "DailyBackup" # TODO: Set Backup Rules
+  })
+}
+
+//Bastion server
+resource "aws_instance" "bastion" {
+  ami                         = var.ami-linux2
+  instance_type               = "t3.medium"
+  associate_public_ip_address = "false"
+  key_name                    = "bastion-key"
+  subnet_id                   = module.vpc.public_subnets[0]
+  iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens   = "required"
+  }
+  vpc_security_group_ids = [aws_security_group.Jenkins-App-sg.id]
+  root_block_device {
+    volume_size           = 50
+    volume_type           = "gp3"
+    iops                  = 3000
+    encrypted             = true
+    delete_on_termination = true
+    tags = merge(local.common_tags, {
+      Name = format("%s-%s-jenkins-ebs", var.Customer, var.environment)
+    })
+  }
+
+  user_data = file("install_jenkins.sh")
+
+  lifecycle {
+    ignore_changes = [associate_public_ip_address]
+  }
+
+  tags = merge(local.common_tags, {
+    Name                = format("%s-%s-jenkins", var.Customer, var.environment),
+    start-stop-schedule = false,
+    OS                  = "amazon-linux",
     Backup              = "DailyBackup" # TODO: Set Backup Rules
   })
 }
@@ -60,7 +98,7 @@ resource "aws_instance" "jenkins-app" {
     })
   }
 
-  user_data = "${file("install_jenkins.sh")}"
+  user_data = file("install_jenkins.sh")
 
   lifecycle {
     ignore_changes = [associate_public_ip_address]
@@ -74,38 +112,7 @@ resource "aws_instance" "jenkins-app" {
   })
 }
 
-#//Server Dev-App
-#resource "aws_instance" "dev-app" {
-#  ami                         = var.ami-ubuntu
-#  instance_type               = "t2.micro"
-#  associate_public_ip_address = "false"
-#  key_name                    = "key-sandbox"
-#  subnet_id                   = aws_subnet.subnet-app-1a.id
-#  iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
-#  metadata_options {
-#    http_endpoint = "enabled"
-#    http_tokens   = "required"
-#  }
-#  vpc_security_group_ids = [aws_security_group.Dev-App-sg.id]
-#  root_block_device {
-#    volume_size           = 20
-#    volume_type           = "gp3"
-#    iops                  = 3000
-#    encrypted             = true
-#    delete_on_termination = true
-#    tags = merge(local.common_tags, {
-#      Name = format("%s-dev-app", var.Customer)
-#    })
-#  }
-#
-#  tags = merge(local.common_tags_dev, {
-#    Name                = format("%s-dev-App-rpras", var.Customer),
-#    start-stop-schedule = false,
-#    OS                  = "Ubuntu",
-#    Backup              = "DailyBackup" # TODO: Set Backup Rules
-#  })
-#}
-#
+
 #//Server Prod-Data
 #resource "aws_instance" "Prod-Data" {
 #  ami                         = var.ami-ubuntu

@@ -1,3 +1,80 @@
+######
+# Security Group Port Rules
+######
+variable "mongodb" {
+  type = map(any)
+  default = {
+    "ssh"     = 22
+    "mongodb" = 27017
+  }
+}
+
+variable "alb-port-list" {
+  type = map(any)
+  default = {
+    "http"  = 80
+    "https" = 443
+
+  }
+}
+
+variable "bastion-host-port-list" {
+  type = map(any)
+  default = {
+    "http"  = 80
+    "https" = 443
+    "ssh"   = 22
+  }
+}
+
+variable "application-port-list" {
+  type = map(any)
+  default = {
+    "http"  = 80
+    "https" = 443
+    "ssh"   = 22
+  }
+}
+
+variable "data-port-list" {
+  type = map(any)
+  default = {
+    "http"  = 80
+    "https" = 443
+    "ssh"   = 22
+  }
+}
+
+//Bastion SG
+resource "aws_security_group" "bastion-host-sg" {
+  name        = format("%s-%s-bastion-host-sg", var.project, var.environment)
+  description = format("%s-%s-bastion-host-sg", var.project, var.environment)
+  vpc_id      = module.vpc.vpc_id
+  dynamic "ingress" {
+    for_each = var.bastion-host-port-list
+    content {
+      from_port = ingress.value
+      to_port   = ingress.value
+      protocol  = "tcp"
+      cidr_blocks = [
+      "0.0.0.0/0"]
+      description = ingress.key
+    }
+  }
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1" //all traffic
+    cidr_blocks = [
+    "0.0.0.0/0"]
+  }
+  tags = merge(local.common_tags, {
+    Name = format("%s-%s-bastion-host-sg", var.project, var.environment),
+  })
+  lifecycle { ignore_changes = [ingress, egress] }
+
+}
+
 #variable "openvpn-sg-port" {
 #  type = map(any)
 #  default = {
@@ -38,9 +115,9 @@
 #}
 
 //Prod-App-sg
-resource "aws_security_group" "Prod-App-sg" {
-  name        = format("%s-%s-App-sg", var.Customer, var.environment)
-  description = format("%s-%s-App-sg", var.Customer, var.environment)
+resource "aws_security_group" "web-sg" {
+  name        = format("%s-%s-web-sg", var.Customer, var.environment)
+  description = format("%s-%s-web-sg", var.Customer, var.environment)
   vpc_id      = module.vpc.vpc_id
   ingress {
     from_port = 22
@@ -69,7 +146,7 @@ resource "aws_security_group" "Prod-App-sg" {
     description = "https"
   }
 
-    ingress {
+  ingress {
     from_port = 80
     to_port   = 80
     protocol  = "tcp"
@@ -103,56 +180,8 @@ resource "aws_security_group" "Prod-App-sg" {
   })
 }
 
-//Dev-App-sg
-resource "aws_security_group" "Dev-App-sg" {
-  name        = format("%s-dev-App-sg", var.Customer)
-  description = format("%s-dev-App-sg", var.Customer)
-  vpc_id      = module.vpc.vpc_id
-  ingress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-    cidr_blocks = [
-    "10.0.0.0/16"]
-    description = "ssh"
-  }
-
-  ingress {
-    from_port = 80
-    to_port   = 80
-    protocol  = "tcp"
-    cidr_blocks = [
-    "10.0.0.0/16"]
-    description = "web"
-  }
-
-  ingress {
-    from_port = 443
-    to_port   = 443
-    protocol  = "tcp"
-    cidr_blocks = [
-    "10.0.0.0/16"]
-    description = "https"
-  }
-
-  egress {
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
-    cidr_blocks = [
-    "0.0.0.0/0"]
-  }
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  tags = merge(local.common_tags, {
-    Name = format("%s-dev-vectrkdev-jkt01-sg", var.Customer)
-  })
-}
-
 //Prod-Data-sg
-resource "aws_security_group" "Prod-Data-sg" {
+resource "aws_security_group" "data-sg" {
   name        = format("%s-%s-Datadb-sg", var.Customer, var.environment)
   description = format("%s-%s-Datadb-sg", var.Customer, var.environment)
   vpc_id      = module.vpc.vpc_id
@@ -161,7 +190,7 @@ resource "aws_security_group" "Prod-Data-sg" {
     to_port   = 3306
     protocol  = "tcp"
     cidr_blocks = [
-    "10.0.10.159/32"]
+    "10.0.0.0/16"]
     description = "mysql"
   }
 
@@ -170,7 +199,7 @@ resource "aws_security_group" "Prod-Data-sg" {
     to_port   = 22
     protocol  = "tcp"
     cidr_blocks = [
-    "10.0.10.159/32"]
+    "10.0.0.0/16"]
     description = "ssh"
   }
 
@@ -179,7 +208,7 @@ resource "aws_security_group" "Prod-Data-sg" {
     to_port   = 22
     protocol  = "tcp"
     cidr_blocks = [
-    "10.0.10.44/32"]
+    "10.0.0.0/16"]
     description = "ssh"
   }
 
@@ -192,29 +221,22 @@ resource "aws_security_group" "Prod-Data-sg" {
   })
 }
 
-//alb-sg
-resource "aws_security_group" "web-alb-sg" {
-  name        = format("%s-%s-web-alb-sg", var.Customer, var.environment)
-  description = format("%s-%s-web-alb-sg", var.Customer, var.environment)
+# ALB Security Group
+resource "aws_security_group" "alb-sg" {
+  name        = format("%s-%s-alb-sg", var.project, var.environment)
+  description = format("%s-%s-alb-sg", var.project, var.environment)
   vpc_id      = module.vpc.vpc_id
-  ingress {
-    from_port = 80
-    to_port   = 80
-    protocol  = "tcp"
-    cidr_blocks = [
-    "0.0.0.0/0"]
-    description = "web"
+  dynamic "ingress" {
+    for_each = var.alb-port-list
+    content {
+      from_port = ingress.value
+      to_port   = ingress.value
+      protocol  = "tcp"
+      cidr_blocks = [
+      "0.0.0.0/0"]
+      description = ingress.key
+    }
   }
-
-  ingress {
-    from_port = 443
-    to_port   = 443
-    protocol  = "tcp"
-    cidr_blocks = [
-    "0.0.0.0/0"]
-    description = "https"
-  }
-
   egress {
     from_port = 0
     to_port   = 0
@@ -222,14 +244,51 @@ resource "aws_security_group" "web-alb-sg" {
     cidr_blocks = [
     "0.0.0.0/0"]
   }
-  lifecycle {
-    create_before_destroy = true
-  }
-
   tags = merge(local.common_tags, {
-    Name = format("%s-%s-web-alb-sg", var.Customer, var.environment)
+    Name = format("%s-%s-alb-sg", var.project, var.environment),
   })
+  lifecycle { create_before_destroy = true }
+
 }
+
+////alb-sg
+//resource "aws_security_group" "web-alb-sg" {
+//  name        = format("%s-%s-web-alb-sg", var.Customer, var.environment)
+//  description = format("%s-%s-web-alb-sg", var.Customer, var.environment)
+//  vpc_id      = module.vpc.vpc_id
+//  ingress {
+//    from_port = 80
+//    to_port   = 80
+//    protocol  = "tcp"
+//    cidr_blocks = [
+//    "0.0.0.0/0"]
+//    description = "web"
+//  }
+//
+//  ingress {
+//    from_port = 443
+//    to_port   = 443
+//    protocol  = "tcp"
+//    cidr_blocks = [
+//    "0.0.0.0/0"]
+//    description = "https"
+//  }
+//
+//  egress {
+//    from_port = 0
+//    to_port   = 0
+//    protocol  = "-1"
+//    cidr_blocks = [
+//    "0.0.0.0/0"]
+//  }
+//  lifecycle {
+//    create_before_destroy = true
+//  }
+//
+//  tags = merge(local.common_tags, {
+//    Name = format("%s-%s-web-alb-sg", var.Customer, var.environment)
+//  })
+//}
 
 //Jenkins-App-sg
 resource "aws_security_group" "Jenkins-App-sg" {
@@ -241,7 +300,7 @@ resource "aws_security_group" "Jenkins-App-sg" {
     to_port   = 22
     protocol  = "tcp"
     cidr_blocks = [
-    "10.0.0.0/16"]
+    "0.0.0.0/0"]
     description = "ssh"
   }
 
@@ -259,7 +318,7 @@ resource "aws_security_group" "Jenkins-App-sg" {
     to_port   = 443
     protocol  = "tcp"
     cidr_blocks = [
-    "10.0.0.0/16"]
+    "0.0.0.0/0"]
     description = "https"
   }
 

@@ -58,7 +58,7 @@ variable "ami-ubuntu" {
 }
 
 variable "ami-linux2" {
-  default = "ami-0ed9277fb7eb570c9"
+  default = "ami-090fa75af13c156b4"
 }
 
 #Tagging Common
