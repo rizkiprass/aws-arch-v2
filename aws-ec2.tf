@@ -48,7 +48,7 @@ resource "aws_instance" "bastion" {
     http_endpoint = "enabled"
     http_tokens   = "required"
   }
-  vpc_security_group_ids = [aws_security_group.Jenkins-App-sg.id]
+  vpc_security_group_ids = [aws_security_group.bastion-host-sg.id]
   root_block_device {
     volume_size           = 50
     volume_type           = "gp3"
@@ -56,18 +56,16 @@ resource "aws_instance" "bastion" {
     encrypted             = true
     delete_on_termination = true
     tags = merge(local.common_tags, {
-      Name = format("%s-%s-jenkins-ebs", var.Customer, var.environment)
+      Name = format("%s-%s-bastion-ebs", var.Customer, var.environment)
     })
   }
 
-  user_data = file("install_jenkins.sh")
-
-  lifecycle {
-    ignore_changes = [associate_public_ip_address]
-  }
+//  lifecycle {
+//    ignore_changes = [associate_public_ip_address]
+//  }
 
   tags = merge(local.common_tags, {
-    Name                = format("%s-%s-jenkins", var.Customer, var.environment),
+    Name                = format("%s-%s-bastion", var.Customer, var.environment),
     start-stop-schedule = false,
     OS                  = "amazon-linux",
     Backup              = "DailyBackup" # TODO: Set Backup Rules
