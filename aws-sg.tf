@@ -37,8 +37,65 @@
 #  })
 #}
 
-//Prod-App-sg
+//Prod-App-sg //change to web-app-sg
 resource "aws_security_group" "Prod-App-sg" {
+  name        = format("%s-%s-App-sg", var.Customer, var.environment)
+  description = format("%s-%s-App-sg", var.Customer, var.environment)
+  vpc_id      = module.vpc.vpc_id
+  ingress {
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+    cidr_blocks = [
+    "10.0.0.0/16"]
+    description = "ssh"
+  }
+
+  ingress {
+    from_port = 80
+    to_port   = 80
+    protocol  = "tcp"
+    cidr_blocks = [
+    "10.0.0.0/16"]
+    description = "web"
+  }
+
+  ingress {
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+    cidr_blocks = [
+    "10.0.0.0/16"]
+    description = "https"
+  }
+
+    ingress {
+    from_port = 80
+    to_port   = 80
+    protocol  = "tcp"
+    cidr_blocks = [
+    "0.0.0.0/0"]
+    description = "http"
+  }
+
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    cidr_blocks = [
+    "0.0.0.0/0"]
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = merge(local.common_tags, {
+    Name = format("%s-%s-App-sg", var.Customer, var.environment)
+  })
+}
+
+//jenkins-app-sg
+resource "aws_security_group" "jenkins-App-sg" {
   name        = format("%s-%s-App-sg", var.Customer, var.environment)
   description = format("%s-%s-App-sg", var.Customer, var.environment)
   vpc_id      = module.vpc.vpc_id

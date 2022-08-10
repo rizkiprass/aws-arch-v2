@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.terraform/modules/vpc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../website-forjenkins" vcs="Git" />
   </component>
 </project>

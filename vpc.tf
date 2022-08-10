@@ -43,6 +43,14 @@ resource "aws_eip" "eip-webmaster" {
     Name = format("%s-production-EIP-webmaster", var.project)
   })
 }
+
+resource "aws_eip" "eip-jenkins" {
+  vpc = true
+  instance = aws_instance.jenkins-app
+  tags = merge(local.common_tags, {
+    Name = format("%s-production-EIP-jenkins", var.project)
+  })
+}
 #
 #resource "aws_subnet" "subnet-db-1a" {
 # vpc_id      = module.vpc.vpc_id

@@ -10,6 +10,8 @@ block="/etc/nginx/sites-available/$domain"
 # Create the Document Root directory
 sudo mkdir -p $root
 
+rm /etc/nginx/sites-available/default
+
 # Create the Nginx server block file:
 sudo tee $block > /dev/null <<EOF
 server {

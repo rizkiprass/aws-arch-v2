@@ -1,4 +1,4 @@
-//Server web-App
+//Server web-App //change the prod-app t0 web-app!!!!
 resource "aws_instance" "prod-app" {
   ami                         = var.ami-ubuntu
   instance_type               = "t3.medium"
@@ -26,6 +26,40 @@ resource "aws_instance" "prod-app" {
 
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-webmaster", var.Customer, var.environment),
+    start-stop-schedule = false,
+    OS                  = "Ubuntu",
+    Backup              = "DailyBackup" # TODO: Set Backup Rules
+  })
+}
+
+//Server jenkins
+resource "aws_instance" "jenkins-app" {
+  ami                         = var.ami-ubuntu
+  instance_type               = "t3.medium"
+  associate_public_ip_address = "false"
+  key_name                    = "jenkins-key"
+  subnet_id                   = module.vpc.public_subnets[0]
+  iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
+  metadata_options {
+    http_endpoint = "enabled"
+    http_tokens   = "required"
+  }
+  vpc_security_group_ids = [aws_security_group.Prod-App-sg.id]
+  root_block_device {
+    volume_size           = 100
+    volume_type           = "gp3"
+    iops                  = 3000
+    encrypted             = true
+    delete_on_termination = true
+    tags = merge(local.common_tags, {
+      Name = format("%s-%s-jenkins-ebs", var.Customer, var.environment)
+    })
+  }
+
+#  user_data = "${file("install_nginx.sh")}"
+
+  tags = merge(local.common_tags, {
+    Name                = format("%s-%s-jenkins", var.Customer, var.environment),
     start-stop-schedule = false,
     OS                  = "Ubuntu",
     Backup              = "DailyBackup" # TODO: Set Backup Rules
