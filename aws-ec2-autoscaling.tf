@@ -8,7 +8,7 @@ module "webserversg" {
   lc_name               = format("%s-%s-webserver", var.Customer, var.environment)
   image_id              = "ami-04505e74c0741db8d" #AMI-Webserver
   instance_type         = "t3.medium"
-  key_name              = "webserver-keypair"
+  key_name              = "webmaster-key"
   security_groups       = [aws_security_group.web-sg.id]
   termination_policies  = ["OldestInstance"]
   root_block_device = [
