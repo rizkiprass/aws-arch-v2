@@ -60,9 +60,9 @@ resource "aws_instance" "bastion" {
     })
   }
 
-//  lifecycle {
-//    ignore_changes = [associate_public_ip_address]
-//  }
+  lifecycle {
+    ignore_changes = [associate_public_ip_address]
+  }
 
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-bastion", var.Customer, var.environment),
