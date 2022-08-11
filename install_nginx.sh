@@ -1,7 +1,7 @@
 #!/bin/bash
 
-sudo apt-get update
-sudo apt-get -y install nginx
+sudo apt update
+sudo apt install nginx -y
 
 domain=rp-server.site
 root="/var/www/html/$domain"

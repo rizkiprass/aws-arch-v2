@@ -24,9 +24,9 @@ resource "aws_instance" "web-app" {
 
   user_data = file("install_nginx.sh")
 
-  lifecycle {
-    ignore_changes = [associate_public_ip_address]
-  }
+#  lifecycle {
+#    ignore_changes = [associate_public_ip_address]
+#  }
 
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-webmaster", var.Customer, var.environment),
