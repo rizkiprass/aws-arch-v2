@@ -1,61 +1,53 @@
-module "asg" {
+module "webserversg" {
+
   source  = "terraform-aws-modules/autoscaling/aws"
-  version = "~> 4.0"
-
-  # Autoscaling group
-  name            = format("%s-%s-web-asg", var.Customer, var.environment)
-  use_name_prefix = false
-  instance_name   = format("%s-%s-app-web-asg", var.Customer, var.environment)
-
-  min_size                  = 1
-  max_size                  = 3
-  desired_capacity          = 1
-  wait_for_capacity_timeout = 0
-  health_check_type         = "EC2"
-  vpc_zone_identifier       = [module.vpc.intra_subnets[0], module.vpc.intra_subnets[1]]
-
-#  instance_refresh = {
-#    strategy = "Rolling"
-#    preferences = {
-#      checkpoint_delay       = 600
-#      checkpoint_percentages = [35, 70, 100]
-#      instance_warmup        = 300
-#      min_healthy_percentage = 50
-#    }
-#    triggers = ["tag"]
-#  }
+  version = "~> 3.0"
+  name    = format("%s-%s-webserver-asg", var.Customer, var.environment)
 
   # Launch configuration
-  lc_name   = format("%s-%s-web-lc", var.Customer, var.environment)
-  use_lc    = true
-  create_lc = false
-
-  image_id          = "ami-04505e74c0741db8d"
-  instance_type     = "t3.medium"
-
-  iam_instance_profile_arn    = aws_iam_instance_profile.ssm-profile.arn
-  security_groups             = [aws_security_group.web-sg.id]
-
-  target_group_arns = [aws_lb_target_group.albtg-web-app.arn]
-
-  ebs_block_device = [
-    {
-      device_name           = "/dev/xvda"
-      delete_on_termination = true
-      encrypted             = true
-      volume_type           = "gp3"
-      volume_size           = "50"
-    },
-  ]
-
+  lc_name               = format("%s-%s-webserver", var.Customer, var.environment)
+  image_id              = "ami-04505e74c0741db8d" #AMI-Webserver
+  instance_type         = "t3.medium"
+  key_name              = "webserver-keypair"
+  security_groups       = [aws_security_group.web-sg.id]
+  termination_policies  = ["OldestInstance"]
   root_block_device = [
     {
-      delete_on_termination = true
-      encrypted             = true
-      volume_size           = "50"
+      volume_size           = 50
       volume_type           = "gp3"
-    },
+      encrypted             = true
+      delete_on_termination = true
+    }
   ]
+  enable_monitoring = true
+  # Auto scaling group
+  asg_name                  = format("%s-%s-webserver-asg", var.Customer, var.environment)
+  vpc_zone_identifier       = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
+  health_check_type         = "ELB"
+  min_size                  = 1
+  max_size                  = 3//CHANGE
+  desired_capacity          = 1
+  wait_for_capacity_timeout = 0
+  iam_instance_profile      = aws_iam_instance_profile.ssm-profile.name
 
-  tags_as_map = local.common_tags
+  #Target Group
+  target_group_arns = [aws_lb_target_group.albtg-web-app.arn]
+  tags_as_map       = local.common_tags
+}
+
+ #Automatic Scale
+resource "aws_autoscaling_policy" "sandbox-scale-out" {
+  name                   = "scale-out"
+  scaling_adjustment     = 1
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300
+  autoscaling_group_name = module.webserversg.this_autoscaling_group_name
+
+}
+resource "aws_autoscaling_policy" "bogordaily-scale-in" {
+  name                   = "scale-in"
+  scaling_adjustment     = -1
+  adjustment_type        = "ChangeInCapacity"
+  cooldown               = 300
+  autoscaling_group_name = module.webserversg.this_autoscaling_group_name
 }
