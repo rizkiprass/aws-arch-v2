@@ -26,7 +26,7 @@ resource "aws_lb_listener" "ALBListenerwebhttp" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
+    type             = "redirect"
     target_group_arn = aws_lb_target_group.albtg-web-app.arn
     redirect {
       port        = "443"
@@ -91,7 +91,6 @@ resource "aws_lb_listener" "ALBListenerwebhttps" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.albtg-web-app.arn
   }
-
 }
 
 #//Custom Rule HTTPS
