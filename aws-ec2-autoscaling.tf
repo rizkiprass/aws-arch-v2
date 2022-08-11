@@ -44,7 +44,7 @@ resource "aws_autoscaling_policy" "sandbox-scale-out" {
   autoscaling_group_name = module.webserversg.this_autoscaling_group_name
 
 }
-resource "aws_autoscaling_policy" "bogordaily-scale-in" {
+resource "aws_autoscaling_policy" "sandbox-scale-in" {
   name                   = "scale-in"
   scaling_adjustment     = -1
   adjustment_type        = "ChangeInCapacity"
