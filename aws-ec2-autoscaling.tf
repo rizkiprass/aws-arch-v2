@@ -34,9 +34,9 @@ module "asg" {
   instance_type     = "t3.medium"
 
   iam_instance_profile_arn    = aws_iam_instance_profile.ssm-profile.arn
-  security_groups             = aws_security_group.web-sg.id
+  security_groups             = [aws_security_group.web-sg.id]
 
-  target_group_arns = aws_lb_target_group.albtg-web-app.arn
+  target_group_arns = [aws_lb_target_group.albtg-web-app.arn]
 
   ebs_block_device = [
     {
