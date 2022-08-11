@@ -5,12 +5,12 @@ module "webserversg" {
   name    = format("%s-%s-webserver-asg", var.Customer, var.environment)
 
   # Launch configuration
-  lc_name               = format("%s-%s-webserver", var.Customer, var.environment)
-  image_id              = "ami-04505e74c0741db8d" #AMI-Webserver
-  instance_type         = "t3.medium"
-  key_name              = "webmaster-key"
-  security_groups       = [aws_security_group.web-sg.id]
-  termination_policies  = ["OldestInstance"]
+  lc_name              = format("%s-%s-webserver", var.Customer, var.environment)
+  image_id             = "ami-04505e74c0741db8d" #AMI-Webserver
+  instance_type        = "t3.medium"
+  key_name             = "webmaster-key"
+  security_groups      = [aws_security_group.web-sg.id]
+  termination_policies = ["OldestInstance"]
   root_block_device = [
     {
       volume_size           = 50
@@ -25,7 +25,7 @@ module "webserversg" {
   vpc_zone_identifier       = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
   health_check_type         = "ELB"
   min_size                  = 1
-  max_size                  = 3//CHANGE
+  max_size                  = 3 //CHANGE
   desired_capacity          = 1
   wait_for_capacity_timeout = 0
   iam_instance_profile      = aws_iam_instance_profile.ssm-profile.name
@@ -35,7 +35,7 @@ module "webserversg" {
   tags_as_map       = local.common_tags
 }
 
- #Automatic Scale
+#Automatic Scale
 resource "aws_autoscaling_policy" "sandbox-scale-out" {
   name                   = "scale-out"
   scaling_adjustment     = 1

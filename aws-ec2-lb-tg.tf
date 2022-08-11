@@ -28,11 +28,11 @@ resource "aws_lb_listener" "ALBListenerwebhttp" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.albtg-web-app.arn
-    /* redirect {
+    redirect {
       port        = "443"
       protocol    = "HTTPS"
       status_code = "HTTP_301"
-    } */
+    }
   }
 }
 
@@ -79,20 +79,20 @@ resource "aws_lb_listener" "ALBListenerwebhttp" {
 #  }
 #}
 
-#// Create Listener Https
-#resource "aws_lb_listener" "ALBListenerwebhttps" {
-#  load_balancer_arn = aws_lb.web-alb.arn
-#  port              = "443"
-#  protocol          = "HTTPS"
-#  ssl_policy        = "ELBSecurityPolicy-2016-08"
-#  certificate_arn   = "arn:aws:acm:us-east-1:016221436595:certificate/7852dfd5-947b-4a67-b544-23f7c1acf24d"
-#
-#  default_action {
-#    type             = "forward"
-#    target_group_arn = aws_lb_target_group.albtg-prod-app.arn
-#  }
-#
-#}
+// Create Listener Https
+resource "aws_lb_listener" "ALBListenerwebhttps" {
+  load_balancer_arn = aws_lb.web-alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.cert-rp.arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.albtg-web-app.arn
+  }
+
+}
 
 #//Custom Rule HTTPS
 #resource "aws_lb_listener_rule" "prod-https" {

@@ -14,7 +14,6 @@ variable "alb-port-list" {
   default = {
     "http"  = 80
     "https" = 443
-
   }
 }
 
