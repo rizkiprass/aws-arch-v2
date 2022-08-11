@@ -39,7 +39,7 @@
 
  //asg-cloudwatch
 resource "aws_cloudwatch_metric_alarm" "sandbox-web-cpu-above" {
-  alarm_name          = format("%s-%s-web-utoscale-cpu-above", var.Customer, var.environment)
+  alarm_name          = format("%s-%s-web-autoscale-cpu-above", var.Customer, var.environment)
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "CPUUtilization"
@@ -57,8 +57,8 @@ resource "aws_cloudwatch_metric_alarm" "sandbox-web-cpu-above" {
   }
 }
 
-resource "aws_cloudwatch_metric_alarm" "bogordaily-webserverutoscale-cpu-below" {
-  alarm_name          = format("%s-%s-bogordaily-webserverutoscale-cpu-below", var.Customer, var.environment)
+resource "aws_cloudwatch_metric_alarm" "sandbox-web-cpu-below" {
+  alarm_name          = format("%s-%s-web-autoscale-cpu-below", var.Customer, var.environment)
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
