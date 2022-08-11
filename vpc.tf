@@ -36,11 +36,19 @@ resource "aws_eip" "eip-nat2-sandbox" {
   })
 }
 
-resource "aws_eip" "eip-webmaster" {
-  vpc = true
-  instance = aws_instance.prod-app.id
+resource "aws_eip" "eip-jenkins" {
+  vpc      = true
+  instance = aws_instance.jenkins-app.id
   tags = merge(local.common_tags, {
-    Name = format("%s-production-EIP-webmaster", var.project)
+    Name = format("%s-production-EIP-jenkins", var.project)
+  })
+}
+
+resource "aws_eip" "eip-bastion" {
+  vpc      = true
+  instance = aws_instance.bastion.id
+  tags = merge(local.common_tags, {
+    Name = format("%s-production-EIP-bastion", var.project)
   })
 }
 

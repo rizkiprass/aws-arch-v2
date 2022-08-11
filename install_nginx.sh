@@ -13,7 +13,7 @@ sudo mkdir -p $root
 rm /etc/nginx/sites-available/default
 
 # Create the Nginx server block file:
-sudo tee $block > /dev/null <<EOF
+cat << EOF > $block
 server {
         listen 80 default_server;
         listen [::]:80 default_server;
@@ -27,8 +27,6 @@ server {
                 try_files $uri $uri/ =404;
         }
 }
-
-
 EOF
 
 # Create the index.html:
@@ -38,6 +36,8 @@ rm /etc/nginx/sites-enabled/default
 
 # Link to make it available
 sudo ln -s $block /etc/nginx/sites-enabled/
+
+#ln -s /etc/nginx/sites-available/rp-server.site /etc/nginx/sites-enabled/
 
 # Test configuration and reload if successful
 sudo nginx -t && sudo service nginx reload
