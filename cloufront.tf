@@ -1,5 +1,5 @@
-resource "aws_cloudfront_distribution" "cloudfront-1" {
-  comment         = "cloudfront-1"
+resource "aws_cloudfront_distribution" "elb" {
+  comment         = "rp-server.site"
   aliases         = ["rp-server.site"]
   enabled         = true
   is_ipv6_enabled = true
@@ -37,9 +37,6 @@ resource "aws_cloudfront_distribution" "cloudfront-1" {
 #   origin_request_policy_id = aws_cloudfront_origin_request_policy.origin-policy.id
 #    cache_policy_id          = aws_cloudfront_cache_policy.cache-policy-60s.id
  }
-  comment = "test-desc"
-    price_class = "PriceClass_All"
-    enabled = true
 #  ordered_cache_behavior {
 #    path_pattern     = "/*"
 #    allowed_methods  = ["GET", "HEAD"]
