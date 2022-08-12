@@ -87,6 +87,8 @@ resource "aws_lb_listener" "ALBListenerwebhttps" {
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = aws_acm_certificate.cert-rp.arn
 
+  depends_on = [aws_acm_certificate.cert-rp.arn]
+
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.albtg-web-app.arn
