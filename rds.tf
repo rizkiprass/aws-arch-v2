@@ -15,7 +15,7 @@ resource "aws_db_parameter_group" "rdsmysql-pg" {
 resource "aws_db_subnet_group" "subnetgroup_db" {
   name       = "rdsmysql"
   #subnet_ids = ["${aws_subnet.subnet-db-1a.id}", "${aws_subnet.subnet-db-1b.id}"]
-  subnet_ids =   [module.vpc.intra_subnets[0], module.vpc.intra_subnets[0]]
+  subnet_ids =   [module.vpc.intra_subnets[0], module.vpc.intra_subnets[1]]
 
   tags = {
     Name = "rdsmysql"
