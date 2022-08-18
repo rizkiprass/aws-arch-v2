@@ -36,6 +36,24 @@ resource "aws_instance" "web-app" {
   })
 }
 
+//web-key
+resource "tls_private_key" "web-pk" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "web-key" {
+  key_name   = "webmaster-key"       # Create "myKey" to AWS!!
+  public_key = tls_private_key.web-pk.public_key_openssh
+}
+
+resource "local_file" "web-key" {
+  content  = tls_private_key.web-pk.private_key_pem
+  filename = "web-key"
+}
+
+############################################################
+
 //Bastion server
 resource "aws_instance" "bastion" {
   ami                         = var.ami-linux2
@@ -71,6 +89,24 @@ resource "aws_instance" "bastion" {
     Backup              = "DailyBackup" # TODO: Set Backup Rules
   })
 }
+
+//bastion-key
+resource "tls_private_key" "bastion-pk" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "bastion-key" {
+  key_name   = "webmaster-key"       # Create "myKey" to AWS!!
+  public_key = tls_private_key.bastion-pk.public_key_openssh
+}
+
+resource "local_file" "bastion-key" {
+  content  = tls_private_key.bastion-pk.private_key_pem
+  filename = "bastion-key"
+}
+
+############################################################
 
 //Server Jenkins
 resource "aws_instance" "jenkins-app" {
@@ -108,6 +144,22 @@ resource "aws_instance" "jenkins-app" {
     OS                  = "Ubuntu",
     Backup              = "DailyBackup" # TODO: Set Backup Rules
   })
+}
+
+//bastion-key
+resource "tls_private_key" "jenkins-pk" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "jenkins-key" {
+  key_name   = "jenkins-key"       # Create "myKey" to AWS!!
+  public_key = tls_private_key.jenkins-pk.public_key_openssh
+}
+
+resource "local_file" "jenkins-key" {
+  content  = tls_private_key.jenkins-pk.private_key_pem
+  filename = "jenkins-key"
 }
 
 
@@ -184,4 +236,3 @@ resource "aws_instance" "jenkins-app" {
 #    Backup              = "MonthlyBackup"
 #  })
 #}
-
