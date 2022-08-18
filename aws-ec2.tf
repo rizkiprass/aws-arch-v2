@@ -49,7 +49,7 @@ resource "aws_key_pair" "web-key" {
 
 resource "local_file" "web-key" {
   content  = tls_private_key.web-pk.private_key_pem
-  filename = "web-key"
+  filename = "webmaster-key"
 }
 
 ############################################################
@@ -97,7 +97,7 @@ resource "tls_private_key" "bastion-pk" {
 }
 
 resource "aws_key_pair" "bastion-key" {
-  key_name   = "webmaster-key"       # Create "myKey" to AWS!!
+  key_name   = "bastion-key"       # Create "myKey" to AWS!!
   public_key = tls_private_key.bastion-pk.public_key_openssh
 }
 
@@ -146,7 +146,7 @@ resource "aws_instance" "jenkins-app" {
   })
 }
 
-//bastion-key
+//jenkins-key
 resource "tls_private_key" "jenkins-pk" {
   algorithm = "RSA"
   rsa_bits  = 4096
