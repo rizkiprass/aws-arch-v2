@@ -49,7 +49,7 @@ resource "aws_key_pair" "web-key" {
 
 resource "local_file" "web-key" {
   content  = tls_private_key.web-pk.private_key_pem
-  filename = "webmaster-key"
+  filename = pathexpand("%cd%/key-pair/")
 }
 
 ############################################################
@@ -103,7 +103,7 @@ resource "aws_key_pair" "bastion-key" {
 
 resource "local_file" "bastion-key" {
   content  = tls_private_key.bastion-pk.private_key_pem
-  filename = "bastion-key"
+  filename = pathexpand("%cd%/key-pair/")
 }
 
 ############################################################
@@ -159,7 +159,7 @@ resource "aws_key_pair" "jenkins-key" {
 
 resource "local_file" "jenkins-key" {
   content  = tls_private_key.jenkins-pk.private_key_pem
-  filename = "jenkins-key"
+  filename = pathexpand("%cd%/key-pair/")
 }
 
 
