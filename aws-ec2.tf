@@ -155,14 +155,11 @@ resource "tls_private_key" "jenkins-pk" {
 resource "aws_key_pair" "jenkins-key" {
   key_name   = "jenkins-key"       # Create "myKey" to AWS!!
   public_key = tls_private_key.jenkins-pk.public_key_openssh
-  provisioner "local-exec" { # Create a "myKey.pem" to your computer!!
-    command = "echo '${tls_private_key.jenkins-pk.private_key_pem}' > ./key-pair/jenkins-key.pem"
-  }
 }
 
 resource "local_file" "jenkins-key" {
   content  = tls_private_key.jenkins-pk.private_key_pem
-  filename = "jenkins-key.pem"
+  filename = "${aws_key_pair.jenkins-key.key_name}.pem"
 }
 
 
