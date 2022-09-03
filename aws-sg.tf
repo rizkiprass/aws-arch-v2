@@ -151,7 +151,7 @@ resource "aws_security_group" "web-sg" {
     to_port   = 80
     protocol  = "tcp"
     cidr_blocks = [
-    "0.0.0.0/0"]
+    "10.0.0.0/16"]
     description = "http"
   }
 
@@ -181,9 +181,9 @@ resource "aws_security_group" "web-sg" {
 }
 
 //Prod-Data-sg
-resource "aws_security_group" "data-sg" {
-  name        = format("%s-%s-Datadb-sg", var.Customer, var.environment)
-  description = format("%s-%s-Datadb-sg", var.Customer, var.environment)
+resource "aws_security_group" "rdsmysql-sg" {
+  name        = format("%s-%s-rdsmysql-sg", var.Customer, var.environment)
+  description = format("%s-%s-rdsmysql-sg", var.Customer, var.environment)
   vpc_id      = module.vpc.vpc_id
   ingress {
     from_port = 3306
