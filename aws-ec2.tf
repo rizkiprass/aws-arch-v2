@@ -24,9 +24,9 @@ resource "aws_instance" "web-app" {
 
   user_data = file("install_nginx.sh")
 
-  lifecycle {
-    ignore_changes = [associate_public_ip_address]
-  }
+  #  lifecycle {
+  #    ignore_changes = [associate_public_ip_address]
+  #  }
 
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-webmaster", var.Customer, var.environment),
@@ -35,6 +35,8 @@ resource "aws_instance" "web-app" {
     Backup              = "DailyBackup" # TODO: Set Backup Rules
   })
 }
+
+############################################################
 
 //Bastion server
 resource "aws_instance" "bastion" {
@@ -60,9 +62,9 @@ resource "aws_instance" "bastion" {
     })
   }
 
-//  lifecycle {
-//    ignore_changes = [associate_public_ip_address]
-//  }
+  lifecycle {
+    ignore_changes = [associate_public_ip_address]
+  }
 
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-bastion", var.Customer, var.environment),
@@ -71,6 +73,8 @@ resource "aws_instance" "bastion" {
     Backup              = "DailyBackup" # TODO: Set Backup Rules
   })
 }
+
+############################################################
 
 //Server Jenkins
 resource "aws_instance" "jenkins-app" {
@@ -184,4 +188,3 @@ resource "aws_instance" "jenkins-app" {
 #    Backup              = "MonthlyBackup"
 #  })
 #}
-

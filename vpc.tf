@@ -17,8 +17,8 @@ module "vpc" {
   # Reuse NAT IPs
   reuse_nat_ips         = true # <= if true, Skip creation of EIPs for the NAT Gateways
   external_nat_ip_ids   = [aws_eip.eip-nat-sandbox.id, aws_eip.eip-nat2-sandbox.id] #attach eip from manually created eip
-  public_subnet_suffix  = "web"
-  private_subnet_suffix = "app"
+  public_subnet_suffix  = "public"
+  private_subnet_suffix = "private"
   intra_subnet_suffix   = "data"
   tags                  = local.common_tags
 }

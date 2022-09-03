@@ -1,0 +1,4 @@
+-add dns record for acm
+-cloudwatch
+-check nginx
+-listener https wait from acm
