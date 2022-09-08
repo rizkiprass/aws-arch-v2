@@ -26,7 +26,7 @@ resource "aws_s3_bucket_acl" "cloudfront-log-acl" {
 }
 ####ALB S3
 resource "aws_s3_bucket" "alb-log" {
-  bucket = "sandbox-alb-log"
+  bucket = "sandbox-alb-log-301"
 
   tags = merge(local.common_tags, {
     Name        = format("%s-%s-alb-log", var.Customer, var.environment),
