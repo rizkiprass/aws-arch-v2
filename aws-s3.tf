@@ -39,7 +39,7 @@ resource "aws_s3_bucket_acl" "alb-log-acl" {
 }
 
 ####static web s3
-resource "aws_s3_bucket" "waf-log" {
+resource "aws_s3_bucket" "cms" {
   bucket = "cms.rp-server.site"
 
   tags = merge(local.common_tags, {
