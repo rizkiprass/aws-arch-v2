@@ -24,9 +24,10 @@ resource "aws_instance" "web-app" {
 
   user_data = file("userdata-with-caching.sh")
 
-  #  lifecycle {
-  #    ignore_changes = [associate_public_ip_address]
-  #  }
+  lifecycle {
+    #      ignore_changes = [associate_public_ip_address]
+    create_before_destroy = false
+  }
 
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-webmaster", var.Customer, var.environment),
