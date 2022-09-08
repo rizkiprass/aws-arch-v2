@@ -41,7 +41,7 @@ resource "aws_instance" "web-app" {
 
 //Server web-App in public
 resource "aws_instance" "web-app-pub" {
-  ami                         = var.ami-ubuntu
+  ami                         = var.ami-linux2
   instance_type               = "t3.medium"
   associate_public_ip_address = "false"
   key_name                    = "webmaster-pub-key"
