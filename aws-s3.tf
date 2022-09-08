@@ -37,3 +37,12 @@ resource "aws_s3_bucket_acl" "alb-log-acl" {
   bucket = aws_s3_bucket.alb-log.id
   acl    = "private"
 }
+
+####static web s3
+resource "aws_s3_bucket" "waf-log" {
+  bucket = "cms.rp-server.site"
+
+  tags = merge(local.common_tags, {
+    Name        = format("%s-%s-cms.rp-server.site", var.Customer, var.environment),
+  })
+}
