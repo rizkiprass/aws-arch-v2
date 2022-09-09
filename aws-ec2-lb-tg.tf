@@ -80,18 +80,18 @@ resource "aws_lb_listener" "ALBListenerwebhttp" {
 #}
 
 // Create Listener Https
-#resource "aws_lb_listener" "ALBListenerwebhttps" {
-#  load_balancer_arn = aws_lb.web-alb.arn
-#  port              = "443"
-#  protocol          = "HTTPS"
-#  ssl_policy        = "ELBSecurityPolicy-2016-08"
-#  certificate_arn   = aws_acm_certificate.cert-rp.arn
-#
-#  default_action {
-#    type             = "forward"
-#    target_group_arn = aws_lb_target_group.albtg-web-app.arn
-#  }
-#}
+resource "aws_lb_listener" "ALBListenerwebhttps" {
+  load_balancer_arn = aws_lb.web-alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = aws_acm_certificate.cert-rp.arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.albtg-web-app.arn
+  }
+}
 
 #//Custom Rule HTTPS
 #resource "aws_lb_listener_rule" "prod-https" {
