@@ -66,7 +66,7 @@ resource "aws_instance" "web-app-pub" {
   user_data = file("userdata-with-caching.sh")
 
   lifecycle {
-    #      ignore_changes = [associate_public_ip_address]
+    ignore_changes        = [associate_public_ip_address]
     create_before_destroy = false
   }
 
