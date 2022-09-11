@@ -1,0 +1,11 @@
+vscode*
+idea*
+idea/*
+secrets.tf
+.terraform.lock.hcl
+.terraform/*
+.terraform
+.terraform*
+secret.*
+.idea*
+.idea/*

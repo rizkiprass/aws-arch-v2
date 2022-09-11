@@ -5,9 +5,8 @@ resource "aws_cloudfront_distribution" "cf" {
   is_ipv6_enabled = true
   #  web_acl_id      = var.waf
   logging_config {
-    bucket          = "mylogs.s3.amazonaws.com"
+    bucket          = "sandbox-cloudfront-log.s3.amazonaws.com"
     include_cookies = false
-    prefix          = "myprefix"
   }
   origin {
     domain_name = aws_lb.web-alb.dns_name

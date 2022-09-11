@@ -1,0 +1,24 @@
+data "aws_vpc_endpoint_service" "s3" {
+  service_type = "Gateway"
+  service      = "s3"
+}
+
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id            = aws_vpc.vpc.id
+  service_name      = data.aws_vpc_endpoint_service.s3.service_name
+  vpc_endpoint_type = "Gateway"
+
+  tags = {
+    Name = format("%s-%s-S3-ENDPOINT", var.customer, var.environment)
+    ENVIRONMENT = "STAGING"
+  }
+}
+
+resource "aws_vpc_endpoint_route_table_association" "private_s3_1" {
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+  route_table_id  = aws_route_table.private-rt.id
+}
+resource "aws_vpc_endpoint_route_table_association" "private_s3_2" {
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+  route_table_id  = aws_route_table.intra-rt.id
+}
