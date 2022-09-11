@@ -5,7 +5,7 @@ resource "aws_cloudfront_distribution" "elb" {
   is_ipv6_enabled = true
 #  web_acl_id      = var.waf
   logging_config {
-    bucket = aws_s3_bucket.cf-log.id
+    bucket = "sandbox-cloudfront-log"
     include_cookies = false
   }
   origin {
