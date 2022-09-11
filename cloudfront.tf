@@ -5,7 +5,7 @@ resource "aws_cloudfront_distribution" "cf" {
   is_ipv6_enabled = true
 #  web_acl_id      = var.waf
   logging_config {
-    bucket = "sandbox-cloudfront-log"
+    bucket = "sandbox-cloudfront-log-234"
     include_cookies = false
   }
   origin {
