@@ -3,3 +3,8 @@
 -check nginx
 -listener https wait from acm
 -cloudfront logging must hardocde s3 name
+
+
+-ids dnegan id
+-data
+-locals

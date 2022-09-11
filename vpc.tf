@@ -20,7 +20,14 @@ module "vpc" {
   public_subnet_suffix  = "public"
   private_subnet_suffix = "private"
   intra_subnet_suffix   = "data"
-  tags                  = local.common_tags
+
+  # VPC Flow Logs (Cloudwatch log group and IAM role will be created)
+  enable_flow_log                      = true
+  create_flow_log_cloudwatch_log_group = true
+  create_flow_log_cloudwatch_iam_role  = true
+  flow_log_max_aggregation_interval    = 60
+
+  tags = local.common_tags
 }
 
 resource "aws_eip" "eip-nat-sandbox" {
