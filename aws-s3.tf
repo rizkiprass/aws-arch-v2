@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "waf-log" {
 }
 
 resource "aws_s3_bucket_acl" "waf-log-acl" {
-  bucket = aws_s3_bucket.alb-log.id
+  bucket = aws_s3_bucket.waf-log.id
   acl    = "private"
 }
 ####CF S3
@@ -21,7 +21,7 @@ resource "aws_s3_bucket" "cf-log" {
 }
 
 resource "aws_s3_bucket_acl" "cloudfront-log-acl" {
-  bucket = aws_s3_bucket.alb-log.id
+  bucket = aws_s3_bucket.cf-log.id
   acl    = "private"
 }
 ####ALB S3
