@@ -7,6 +7,7 @@ resource "aws_cloudfront_distribution" "cf" {
   logging_config {
     bucket          = "mylogs.s3.amazonaws.com"
     include_cookies = false
+    prefix          = "myprefix"
   }
   origin {
     domain_name = aws_lb.web-alb.dns_name
