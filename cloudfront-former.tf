@@ -18,6 +18,7 @@ resource "aws_cloudfront_distribution" "CloudFrontDistribution" {
 
   logging_config {
     bucket          = "sandbox-cloudfront-log.s3.amazonaws.com"
+      prefix          = "cf-elb"
     include_cookies = false
   }
 
@@ -37,7 +38,8 @@ resource "aws_cloudfront_distribution" "CloudFrontDistribution" {
       }
     }
   }
-  comment     = "rp-server.site"
+  comment     = "rp-server.site" //description
+    aliases         = ["rp-server.site"] //cname
   price_class = "PriceClass_All"
   enabled     = true
   viewer_certificate {
