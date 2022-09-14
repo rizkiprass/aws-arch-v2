@@ -1,5 +1,6 @@
 module "asg" {
   source = "terraform-aws-modules/autoscaling/aws"
+  version = "~> 3.0"
 
   name = format("%s-%s-webserver-asg-name", var.Customer, var.environment)
 
