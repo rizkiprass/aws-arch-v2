@@ -16,6 +16,8 @@ module "asg" {
     {
       volume_size = "50"
       volume_type = "gp3"
+      encrypted             = true
+      delete_on_termination = true
     },
   ]
 
@@ -29,11 +31,11 @@ module "asg" {
   max_size                  = 3
   desired_capacity          = 1
   wait_for_capacity_timeout = 0
-  iam_instance_profile_arn    = aws_iam_instance_profile.ssm-profile.name
+  iam_instance_profile    = aws_iam_instance_profile.ssm-profile.name
 
   #Target Group
   target_group_arns = [aws_lb_target_group.albtg-web-app.arn]
-#  tags_as_map       = local.common_tags
+  tags_as_map       = local.common_tags
 
   tags = merge(local.common_tags, {
       Name = format("%s-%s-webserver-asg-tagname", var.Customer, var.environment)
