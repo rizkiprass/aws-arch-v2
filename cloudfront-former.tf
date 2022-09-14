@@ -64,8 +64,8 @@ resource "aws_cloudfront_distribution" "CloudFrontDistribution" {
         "TLSv1.2"
       ]
     }
-    domain_name = "sandbox-prod-web-alb-1525792542.us-east-1.elb.amazonaws.com"
-    origin_id   = "sandbox-prod-web-alb-1525792542.us-east-1.elb.amazonaws.com"
+    domain_name = aws_lb.web-alb.dns_name
+    origin_id   = aws_lb.web-alb.dns_name
 
     origin_path = ""
   }
@@ -74,20 +74,22 @@ resource "aws_cloudfront_distribution" "CloudFrontDistribution" {
       "HEAD",
       "GET"
     ]
+      cached_methods         = ["GET", "HEAD"]
     compress               = true
     smooth_streaming       = false
-    target_origin_id       = "sandbox-prod-web-alb-1525792542.us-east-1.elb.amazonaws.com"
+    target_origin_id       = aws_lb.web-alb.dns_name
     viewer_protocol_policy = "allow-all"
   }
   comment     = ""
   price_class = "PriceClass_All"
   enabled     = true
   viewer_certificate {
-    acm_certificate_arn            = "arn:aws:acm:us-east-1:571626811355:certificate/70099f07-88e7-4408-a27a-5d6e0eb88f5b"
+    acm_certificate_arn            = aws_acm_certificate.cert-rp.arn
     cloudfront_default_certificate = false
     minimum_protocol_version       = "TLSv1.2_2021"
     ssl_support_method             = "sni-only"
   }
+
   restrictions {
     geo_restriction {
       restriction_type = "none"
