@@ -1,4 +1,4 @@
-resource "aws_cloudfront_distribution" "cf" {
+resource "aws_cloudfront_distribution" "cf-elb" {
   comment         = "rp-server.site"
   aliases         = ["rp-server.site"]
   enabled         = true
