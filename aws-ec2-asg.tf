@@ -47,7 +47,7 @@ resource "aws_autoscaling_policy" "sandbox-scale-out" {
   scaling_adjustment     = 1
   adjustment_type        = "ChangeInCapacity"
   cooldown               = 300
-  autoscaling_group_name = module.asg.autoscaling_group_name
+  autoscaling_group_name = module.asg.autoscaling_group_name //see outputs
 
 }
 resource "aws_autoscaling_policy" "sandbox-scale-in" {
