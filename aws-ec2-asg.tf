@@ -36,10 +36,6 @@ module "asg" {
   #Target Group
   target_group_arns = [aws_lb_target_group.albtg-web-app.arn]
   tags_as_map       = local.common_tags
-
-  tags = merge(local.common_tags, {
-      Name = format("%s-%s-webserver-asg-tagname", var.Customer, var.environment)
-    })
 }
 
 #Automatic Scale
@@ -48,7 +44,7 @@ resource "aws_autoscaling_policy" "sandbox-scale-out" {
   scaling_adjustment     = 1
   adjustment_type        = "ChangeInCapacity"
   cooldown               = 300
-  autoscaling_group_name = module.asg.autoscaling_group_name //see outputs
+  autoscaling_group_name = module.asg.this_autoscaling_group_name //see outputs
 
 }
 resource "aws_autoscaling_policy" "sandbox-scale-in" {
@@ -56,5 +52,5 @@ resource "aws_autoscaling_policy" "sandbox-scale-in" {
   scaling_adjustment     = -1
   adjustment_type        = "ChangeInCapacity"
   cooldown               = 300
-  autoscaling_group_name = module.asg.autoscaling_group_name
+  autoscaling_group_name = module.asg.this_autoscaling_group_name
 }
