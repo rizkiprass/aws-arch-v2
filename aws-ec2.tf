@@ -1,41 +1,41 @@
-//Server web-App
-resource "aws_instance" "web-app" {
-  ami                         = var.ami-ubuntu
-  instance_type               = "t3.medium"
-  associate_public_ip_address = "false"
-  key_name                    = "webmaster-key"
-  subnet_id                   = module.vpc.private_subnets[1]
-  iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
-  metadata_options {
-    http_endpoint = "enabled"
-    http_tokens   = "required"
-  }
-  vpc_security_group_ids = [aws_security_group.web-sg.id]
-  root_block_device {
-    volume_size           = 50
-    volume_type           = "gp3"
-    iops                  = 3000
-    encrypted             = true
-    delete_on_termination = true
-    tags = merge(local.common_tags, {
-      Name = format("%s-%s-webmaster-ebs", var.Customer, var.environment)
-    })
-  }
-
-  user_data = file("userdata-with-caching.sh")
-
-  lifecycle {
-    #      ignore_changes = [associate_public_ip_address]
-    create_before_destroy = false
-  }
-
-  tags = merge(local.common_tags, {
-    Name                = format("%s-%s-webmaster", var.Customer, var.environment),
-    start-stop-schedule = false,
-    OS                  = "Ubuntu",
-    Backup              = "DailyBackup" # TODO: Set Backup Rules
-  })
-}
+////Server web-App
+//resource "aws_instance" "web-app" {
+//  ami                         = var.ami-ubuntu
+//  instance_type               = "t3.medium"
+//  associate_public_ip_address = "false"
+//  key_name                    = "webmaster-key"
+//  subnet_id                   = module.vpc.private_subnets[1]
+//  iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
+//  metadata_options {
+//    http_endpoint = "enabled"
+//    http_tokens   = "required"
+//  }
+//  vpc_security_group_ids = [aws_security_group.web-sg.id]
+//  root_block_device {
+//    volume_size           = 50
+//    volume_type           = "gp3"
+//    iops                  = 3000
+//    encrypted             = true
+//    delete_on_termination = true
+//    tags = merge(local.common_tags, {
+//      Name = format("%s-%s-webmaster-ebs", var.Customer, var.environment)
+//    })
+//  }
+//
+//  user_data = file("userdata-with-caching.sh")
+//
+//  lifecycle {
+//    #      ignore_changes = [associate_public_ip_address]
+//    create_before_destroy = false
+//  }
+//
+//  tags = merge(local.common_tags, {
+//    Name                = format("%s-%s-webmaster", var.Customer, var.environment),
+//    start-stop-schedule = false,
+//    OS                  = "Ubuntu",
+//    Backup              = "DailyBackup" # TODO: Set Backup Rules
+//  })
+//}
 
 ############################################################
 
