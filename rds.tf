@@ -19,7 +19,7 @@ resource "random_string" "dbpass" {
   length           = 32
   upper            = true
   lower            = true
-  number           = true
+  numeric           = true
   special          = true
   override_special = "#$!^"
 }
@@ -131,7 +131,7 @@ resource "aws_db_instance" "rdsmysql" {
   engine                  = "mysql"
   engine_version          = "5.7.38"
   instance_class          = "db.t3.medium"
-  name                    = "rdsmysql"
+  db_name                 = "rdsmysql"
   identifier              = "rdsmysql"
   username                = "admin"
   password                = random_string.dbpass.result
