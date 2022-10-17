@@ -2,7 +2,7 @@ locals {
   name   = "production-enabler-apps"
   region = var.aws_region
   tags = {
-    Customer = var.customer
+    Customer = var.Customer
     environment = var.environment
   }
 
