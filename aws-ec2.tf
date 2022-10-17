@@ -63,7 +63,7 @@ resource "aws_instance" "web-app-pub" {
     })
   }
 
-  user_data = file("userdata-with-caching.sh")
+  user_data = file("userdata-with-rds-database.sh")
 
   lifecycle {
     ignore_changes        = [associate_public_ip_address]
