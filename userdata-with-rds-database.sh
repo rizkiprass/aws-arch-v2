@@ -33,9 +33,9 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 3000
 # Install & use pm2 to run Node app in background
 echo "Installing & starting pm2"
 # Note: You might want to use AWS Secrets Manager instead of using environment variables
-export DB_HOST=database-1.c9e925ldgsi8.us-east-1.rds.amazonaws.com
+export DB_HOST=rdsmysql.cqwotzzbgxtw.us-east-1.rds.amazonaws.com
 export DB_USER=admin
-export DB_PASSWORD=Testers!
-export DB_NAME=demo1
+export DB_PASSWORD=HCYk4yQBK3kubzVtDylrjGfb$^hKq3I9
+export DB_NAME=rdsmysql
 npm install pm2@latest -g
 pm2 start app.js
