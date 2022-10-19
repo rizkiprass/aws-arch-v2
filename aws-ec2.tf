@@ -85,7 +85,7 @@ resource "aws_instance" "bastion" {
   ami                         = var.ami-linux2
   instance_type               = "t3.medium"
   associate_public_ip_address = "false"
-  key_name                    = "bastion-key"
+  key_name                    = "webmaster-pub-key"
   subnet_id                   = module.vpc.public_subnets[0]
   iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
   metadata_options {
