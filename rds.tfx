@@ -151,7 +151,7 @@ resource "aws_db_instance" "rdsmysql" {
   publicly_accessible = false
 
   tags = {
-    Name = "rdsmysql"
+    Name = "rdsmysql" //tagging name at rds
     Birthday = "${var.Birthday}"
     Environment = "${var.environment == "" ? "Development" : "Production"}"
   }

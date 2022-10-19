@@ -10,7 +10,7 @@ module "vpc" {
   azs                              = ["us-east-1a", "us-east-1b"]
   public_subnets                   = [var.Public_Subnet_AZ1, var.Public_Subnet_AZ2]
   private_subnets                  = [var.App_Subnet_AZ1, var.App_Subnet_AZ2]
-  intra_subnets                    = [var.Data_Subnet_AZ1, var.Data_Subnet_AZ2]
+  database_subnets                 = [var.Data_Subnet_AZ1, var.Data_Subnet_AZ2]
   # Nat Gateway
   enable_nat_gateway = true
   single_nat_gateway = false #if true, nat gateway only create one
@@ -60,9 +60,9 @@ resource "aws_eip" "eip-bastion" {
   })
 }
 
-resource "aws_eip" "eip-web-pub" {
+resource "aws_eip" "eip-web" {
   vpc      = true
-  instance = aws_instance.web-app-pub.id
+  instance = aws_instance.web-app.id
   tags = merge(local.common_tags, {
     Name = format("%s-production-EIP-web-pub", var.project)
   })

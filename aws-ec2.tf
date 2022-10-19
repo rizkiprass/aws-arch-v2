@@ -40,12 +40,12 @@
 ############################################################
 
 //Server web-App in public
-resource "aws_instance" "web-app-pub" {
+resource "aws_instance" "web-app" {
   ami                         = var.ami-linux2
   instance_type               = "t3.medium"
   associate_public_ip_address = "false"
-  key_name                    = "webmaster-pub-key"
-  subnet_id                   = module.vpc.public_subnets[0]
+  key_name                    = "webmaster-key"
+  subnet_id                   = module.vpc.private_subnets[0]
   iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
   metadata_options {
     http_endpoint = "enabled"
@@ -59,7 +59,7 @@ resource "aws_instance" "web-app-pub" {
     encrypted             = true
     delete_on_termination = true
     tags = merge(local.common_tags, {
-      Name = format("%s-%s-webmaster-pub-ebs", var.Customer, var.environment)
+      Name = format("%s-%s-webmaster-ebs", var.Customer, var.environment)
     })
   }
 
@@ -71,7 +71,7 @@ resource "aws_instance" "web-app-pub" {
   }
 
   tags = merge(local.common_tags, {
-    Name                = format("%s-%s-webmaster-pub", var.Customer, var.environment),
+    Name                = format("%s-%s-webmaster", var.Customer, var.environment),
     start-stop-schedule = false,
     OS                  = "Ubuntu",
     Backup              = "DailyBackup" # TODO: Set Backup Rules
@@ -85,7 +85,7 @@ resource "aws_instance" "bastion" {
   ami                         = var.ami-linux2
   instance_type               = "t3.medium"
   associate_public_ip_address = "false"
-  key_name                    = "webmaster-pub-key"
+  key_name                    = "webmaster-key"
   subnet_id                   = module.vpc.public_subnets[0]
   iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
   metadata_options {
