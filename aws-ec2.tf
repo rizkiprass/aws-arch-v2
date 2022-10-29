@@ -1,5 +1,5 @@
 //Server web-App
-resource "aws_instance" "web-app" {
+resource "aws_instance" "web-app" { //nama web-app samakan dengan nama servernya
   ami                         = var.ami-linux2
   instance_type               = "t3.medium"
   associate_public_ip_address = "false"
@@ -25,7 +25,7 @@ resource "aws_instance" "web-app" {
   #user_data = file("userdata-with-caching.sh")
 
   lifecycle {
-    #      ignore_changes = [associate_public_ip_address]
+    ignore_changes = [associate_public_ip_address]
     create_before_destroy = false
   }
 
