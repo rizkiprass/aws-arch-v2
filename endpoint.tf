@@ -10,7 +10,7 @@ resource "aws_vpc_endpoint" "s3" {
 
   tags = merge(local.common_tags, {
     Name = format("%s-%s-S3-endpoint", var.Customer, var.environment)
-  }
+  })
 }
 
 resource "aws_vpc_endpoint_route_table_association" "private_s3_1" {
