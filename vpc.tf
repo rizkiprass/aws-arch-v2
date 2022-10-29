@@ -60,13 +60,6 @@ resource "aws_eip" "eip-bastion" {
   })
 }
 
-resource "aws_eip" "eip-web" {
-  vpc      = true
-  instance = aws_instance.web-app.id
-  tags = merge(local.common_tags, {
-    Name = format("%s-production-EIP-web-pub", var.project)
-  })
-}
 #
 #resource "aws_subnet" "subnet-db-1a" {
 # vpc_id      = module.vpc.vpc_id
