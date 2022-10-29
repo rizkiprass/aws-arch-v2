@@ -16,7 +16,7 @@ module "vpc" {
   single_nat_gateway = false #if true, nat gateway only create one
   # Reuse NAT IPs
   reuse_nat_ips         = true                                                      # <= if true, Skip creation of EIPs for the NAT Gateways
-  external_nat_ip_ids   = [aws_eip.eip-nat-sandbox.id, aws_eip.eip-nat2-sandbox.id] #attach eip from manually created eip
+  external_nat_ip_ids   = [aws_eip.eip-nat-sandbox.id, aws_eip.eip-nat2-sandbox.id] #attach eip from manual create eip
   public_subnet_suffix  = "public"
   private_subnet_suffix = "private"
   intra_subnet_suffix   = "data"
