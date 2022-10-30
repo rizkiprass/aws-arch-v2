@@ -28,6 +28,9 @@ module "vpc" {
   flow_log_max_aggregation_interval    = 60
 
   tags = local.common_tags
+  vpc_flow_log_tags = {
+    Name = format("%s-%s-vpc-flowlogs", var.Customer, var.environment)
+  }
 }
 
 resource "aws_eip" "eip-nat-sandbox" {
