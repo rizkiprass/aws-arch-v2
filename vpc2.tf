@@ -2,7 +2,7 @@ module "vpc2" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.14.2"
   # insert the 14 required variables here
-  name                             = format("%s-%s-VPC", var.project, var.environment)
+  name                             = format("%s-%s-VPC-2", var.project, var.environment)
   cidr                             = var.cidr2
   enable_dns_hostnames             = true
   enable_dhcp_options              = true
