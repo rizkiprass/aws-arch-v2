@@ -27,13 +27,26 @@ variable "cidr" {
   default = "10.0.0.0/16"
 }
 
+variable "cidr2" {
+  default = "10.1.0.0/16"
+}
+
 variable "Public_Subnet_AZ1" {
   default = "10.0.0.0/24"
+}
+
+variable "Public_Subnet_AZ1_2" {
+  default = "10.1.0.0/24"
 }
 
 variable "Public_Subnet_AZ2" {
   default = "10.0.1.0/24"
 }
+
+variable "Public_Subnet_AZ2_2" {
+  default = "10.1.1.0/24"
+}
+
 
 variable "App_Subnet_AZ1" {
   default = "10.0.10.0/24"
