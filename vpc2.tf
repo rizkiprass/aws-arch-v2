@@ -8,7 +8,7 @@ module "vpc2" {
   enable_dhcp_options              = true
   dhcp_options_domain_name_servers = ["AmazonProvidedDNS"]
   azs                              = ["us-east-1a", "us-east-1b"]
-  public_subnets                   = [var.Public_Subnet_AZ1, var.Public_Subnet_AZ2]
+  public_subnets                   = [var.Public_Subnet_AZ1_2, var.Public_Subnet_AZ2_2]
   # Nat Gateway
   enable_nat_gateway = true
   single_nat_gateway = false #if true, nat gateway only create one
