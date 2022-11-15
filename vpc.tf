@@ -29,11 +29,14 @@ module "vpc" {
   flow_log_cloudwatch_log_group_kms_key_id = module.kms-cwatch-flowlogs-kms.key_arn
 
   tags = local.common_tags
+
+  //tags for vpc flow logs
   vpc_flow_log_tags = {
     Name = format("%s-%s-vpc-flowlogs", var.Customer, var.environment)
   }
 }
 
+//eip for nat
 resource "aws_eip" "eip-nat-sandbox" {
   vpc = true
   tags = merge(local.common_tags, {

@@ -8,3 +8,8 @@
 -ids dnegan id
 -data
 -locals
+
+-automate ovpn and packer
+-naming locals ec2 ebs
+-vpc peering
+-coba keypair dari faris

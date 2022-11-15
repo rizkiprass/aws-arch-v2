@@ -1,13 +1,13 @@
 #FlowLogs
 locals {
-  vpc-name= format("%s-%s-VPC", var.customer, var.environment)
+  vpc-name= format("%s-%s-VPC", var.project, var.environment)
 }
 resource "aws_flow_log" "flow-logs" {
   log_destination      = aws_cloudwatch_log_group.prod-vpc-flowlogs.arn
   log_destination_type = "cloud-watch-logs"
   iam_role_arn         = aws_iam_role.cloudwatch-role.arn
   traffic_type         = "ALL"
-  vpc_id               = aws_vpc.vpc.id
+  vpc_id               = module.vpc.vpc_id
 }
 
 resource "aws_cloudwatch_log_group" "prod-vpc-flowlogs" {
@@ -17,7 +17,7 @@ resource "aws_cloudwatch_log_group" "prod-vpc-flowlogs" {
 }
 
 resource "aws_iam_role" "cloudwatch-role" {
-  name_prefix        = format("%s-flowlog-cw-role", var.customer)
+  name_prefix        = format("%s-flowlog-cw-role", var.project)
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -63,7 +63,7 @@ EOF
 
 module "kms-cwatch-flowlogs" {
   source         = "./modules/aws-kms"
-  alias_name     = format("%s-%s-cwatch-logs", var.customer, var.environment)
+  alias_name     = format("%s-%s-cwatch-logs", var.project, var.environment)
   description    = "KMS CMK for vpc flowlogs cloudwatch"
   environment    = var.environment
   product_domain = "CWatch"
