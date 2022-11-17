@@ -1,4 +1,5 @@
 #!/bin/bash
+exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 # package updates
 sudo yum update -y
 # apache installation, enabling and status check
@@ -40,7 +41,7 @@ cat << EOF > $block
 EOF
 
 # Create the index.html:
-echo "<h1>welcome</h1>" | sudo tee /var/www/html/index.html
+echo "<h1>welcome</h1>" | sudo tee $root/index.html
 
 # Reload apache
 systemctl reload httpd
