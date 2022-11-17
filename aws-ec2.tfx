@@ -1,0 +1,41 @@
+###############
+# OpenVPN + NAT Instance
+##############
+resource "aws_eip" "openvpn-nat" {
+ instance = aws_instance.openvpn.id
+ tags = merge(local.common_tags, {
+   Name = format("%s-%s-openvpn-eip", var.project, var.environment)
+ })
+}
+output "openvpn-eip" {
+ value = aws_eip.openvpn-nat.public_ip
+}
+resource "aws_instance" "openvpn" {
+ ami                  = var.ami-ubuntu
+ instance_type        = "t2.micro"
+ key_name             = "key-sandbox"
+ subnet_id            = "subnet-0dee6841934636be4"
+// iam_instance_profile = aws_iam_instance_profile.ssm-profile.name
+ metadata_options {
+   http_endpoint = "enabled"
+   http_tokens   = "required"
+ }
+ vpc_security_group_ids = [
+ aws_security_group.openvpn-sg.id]
+ source_dest_check = false
+ root_block_device {
+   volume_size           = 10
+   volume_type           = "gp3"
+   iops                  = 3000
+   encrypted             = true
+   delete_on_termination = true
+   tags = merge(local.common_tags, {
+     Name = format("%s-%s-openvpn-ebs", var.project, var.environment),
+   })
+ }
+ tags = merge(local.common_tags, {
+   Name                = format("%s-%s-openvpn", var.project, var.environment),
+   start-stop-schedule = false,
+   Backup              = "MonthlyBackup"
+ })
+}
