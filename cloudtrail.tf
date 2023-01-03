@@ -2,9 +2,9 @@ module "cloudtrail" {
   source = "cloudposse/cloudtrail/aws"
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
-  namespace                     = "eg"
+  namespace                     = "sandbox"
   stage                         = "dev"
-  name                          = "sandbox-trails"
+  name                          = "trail"
   enable_log_file_validation    = true
   include_global_service_events = true
   is_multi_region_trail         = false
@@ -16,7 +16,8 @@ module "cloudtrail_s3_bucket" {
   source = "cloudposse/cloudtrail-s3-bucket/aws"
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
-  namespace = "eg"
+  namespace = "sandbox"
   stage     = "dev"
-  name      = "sandbox-management-trail"
+  name      = "trail"
+}
 }
