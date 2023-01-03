@@ -235,7 +235,7 @@ resource "aws_security_group" "web-sg" {
     "0.0.0.0/0"]
   }
   lifecycle {
-    create_before_destroy = false
+    create_before_destroy = true
   }
 
   tags = merge(local.common_tags, {
