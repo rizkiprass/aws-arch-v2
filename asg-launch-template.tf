@@ -1,10 +1,10 @@
 module "autoscaling-launchtemplate" {
   source  = "terraform-aws-modules/autoscaling/aws"
-  version = "~> 3.0"
+  version = "~> 6.7.0"
 
 
   # Autoscaling group
-  name            = format("%s-%s-webserver-asg", var.Customer, var.environment)
+  name            = format("%s-%s-webserver-asg", var.customer, var.environment)
   use_name_prefix = false
 #  instance_name   = "my-instance-name"
 
@@ -19,7 +19,7 @@ module "autoscaling-launchtemplate" {
   vpc_zone_identifier       = module.vpc.private_subnets
 
   # Launch template
-  launch_template_name        = format("%s-%s-webserver", var.Customer, var.environment)
+  launch_template_name        = format("%s-%s-webserver", var.customer, var.environment)
   launch_template_description = "webserver-lt"
   update_default_version      = true
   key_name             = "webmaster-key"
@@ -33,7 +33,7 @@ module "autoscaling-launchtemplate" {
 
   security_groups      = [aws_security_group.web-sg.id]
 
-  target_group_arns = aws_lb_target_group.albtg-web-asg.arn
+  target_group_arns = [aws_lb_target_group.albtg-web-asg.arn]
 #  enable_monitoring = true
 
 #  block_device_mappings = [
