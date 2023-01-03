@@ -20,4 +20,3 @@ module "cloudtrail_s3_bucket" {
   stage     = "dev"
   name      = "trail"
 }
-}
