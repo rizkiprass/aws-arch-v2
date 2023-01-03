@@ -71,7 +71,7 @@ resource "aws_instance" "bastion" {
   tags = merge(local.common_tags, {
     Name                = format("%s-%s-bastion", var.customer, var.environment),
     start-stop-schedule = false,
-    OS                  = "amazon-linux",
+    OS                  = "Amazon-Linux-2",
     Backup              = "DailyBackup" # TODO: Set Backup Rules
   })
 }

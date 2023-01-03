@@ -10,9 +10,9 @@ module "autoscaling-launchtemplate" {
 
   #  ignore_desired_capacity_changes = true
 
-  min_size                  = 1
+  min_size                  = 0
   max_size                  = 2
-  desired_capacity          = 1
+  desired_capacity          = 0
   wait_for_capacity_timeout = 0
   default_instance_warmup   = 300
   health_check_type         = "EC2"
