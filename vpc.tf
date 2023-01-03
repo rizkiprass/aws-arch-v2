@@ -15,12 +15,12 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = true #if true, nat gateway only create one
   # Reuse NAT IPs
-  reuse_nat_ips         = true                         # <= if true, Skip creation of EIPs for the NAT Gateways
-  external_nat_ip_ids   = [aws_eip.eip-nat-sandbox.id] #attach eip from manual create eip
-  public_subnet_suffix  = "public"
-  private_subnet_suffix = "private"
+  reuse_nat_ips          = true                         # <= if true, Skip creation of EIPs for the NAT Gateways
+  external_nat_ip_ids    = [aws_eip.eip-nat-sandbox.id] #attach eip from manual create eip
+  public_subnet_suffix   = "public"
+  private_subnet_suffix  = "private"
   database_subnet_suffix = "db"
-#  intra_subnet_suffix   = "data"
+  #  intra_subnet_suffix   = "data"
 
   #  # VPC Flow Logs (Cloudwatch log group and IAM role will be created)
   #  enable_flow_log                      = true
