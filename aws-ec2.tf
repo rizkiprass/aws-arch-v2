@@ -5,7 +5,7 @@ resource "aws_instance" "web-app" {
   associate_public_ip_address = "false"
   key_name                    = "webmaster-key"
   subnet_id                   = module.vpc.private_subnets[0]
-  iam_instance_profile        = aws_iam_instance_profile.ssm-profile.name
+  iam_instance_profile        = aws_iam_instance_profile.ssm-s3-profile.name
   metadata_options {
     http_endpoint = "enabled"
     http_tokens   = "required"
