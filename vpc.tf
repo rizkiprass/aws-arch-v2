@@ -19,7 +19,8 @@ module "vpc" {
   external_nat_ip_ids   = [aws_eip.eip-nat-sandbox.id] #attach eip from manual create eip
   public_subnet_suffix  = "public"
   private_subnet_suffix = "private"
-  intra_subnet_suffix   = "data"
+  database_subnet_suffix = "db"
+#  intra_subnet_suffix   = "data"
 
   #  # VPC Flow Logs (Cloudwatch log group and IAM role will be created)
   #  enable_flow_log                      = true
