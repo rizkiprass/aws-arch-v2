@@ -25,7 +25,7 @@ module "autoscaling-launchtemplate" {
   key_name                    = "webmaster-key"
   termination_policies        = ["OldestInstance"]
 
-  image_id      = "ami-0bc3e55f290310f38"
+  image_id      = "ami-0568896068fd43326"
   instance_type = "t3.micro"
   #  user_data         = base64encode(local.user_data)
 
