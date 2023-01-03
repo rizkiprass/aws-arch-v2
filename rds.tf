@@ -71,6 +71,7 @@ module "master" {
   availability_zone       = "${var.region}a"
 
   tags = {
+    Name        = format("%s-%s-rds", var.customer, var.environment)
     Environment = var.environment
   }
 }
