@@ -1,6 +1,27 @@
-////////target group web-app
-resource "aws_lb_target_group" "albtg-web-app" {
-  name     = format("%s-%s-albtg-web-app", var.Customer, var.environment)
+#////////target group web-app
+#resource "aws_lb_target_group" "albtg-web-app" {
+#  name     = format("%s-%s-albtg-web-app", var.customer, var.environment)
+#  port     = 80
+#  protocol = "HTTP"
+#  vpc_id   = module.vpc.vpc_id
+#  health_check {
+#    path                = "/"
+#    protocol            = "HTTP"
+#    healthy_threshold   = 3
+#    unhealthy_threshold = 2
+#  }
+#  # lifecycle {
+#  #     create_before_destroy = true
+#  #   }
+#
+#  tags = merge(local.common_tags, {
+#    Name = format("%s-%s-albtg-web-app", var.customer, var.environment)
+#  })
+#}
+
+################target group asg################
+resource "aws_lb_target_group" "albtg-web-asg" {
+  name     = format("%s-%s-albtg-web-asg", var.customer, var.environment)
   port     = 80
   protocol = "HTTP"
   vpc_id   = module.vpc.vpc_id
@@ -15,8 +36,16 @@ resource "aws_lb_target_group" "albtg-web-app" {
   #   }
 
   tags = merge(local.common_tags, {
-    Name = format("%s-%s-albtg-web-app", var.Customer, var.environment)
+    Name = format("%s-%s-albtg-web-asg", var.customer, var.environment)
   })
+}
+################################################
+
+//attachment asg
+# Create a new ALB Target Group attachment
+resource "aws_autoscaling_attachment" "asg_attachment" {
+  autoscaling_group_name = module.autoscaling.this_autoscaling_group_id
+  lb_target_group_arn    = aws_lb_target_group.albtg-web-asg.arn
 }
 
 //create Listener Http
@@ -126,16 +155,18 @@ resource "aws_lb_listener" "ALBListenerwebhttps" {
 #  }
 #}
 
-//attach web-app
-resource "aws_lb_target_group_attachment" "web-app-attach" {
-  target_group_arn = aws_lb_target_group.albtg-web-app.arn
-  target_id        = aws_instance.web-app.id
-  port             = 80
-}
+#//attach web-app
+#resource "aws_lb_target_group_attachment" "web-app-attach" {
+#  target_group_arn = aws_lb_target_group.albtg-web-app.arn
+#  target_id        = aws_instance.web-app.id
+#  port             = 80
+#}
+
+
 
 #///////target group dev-app
 #resource "aws_lb_target_group" "albtg-dev-app" {
-#  name     = format("%s-dev-albtg-dev-app", var.Customer)
+#  name     = format("%s-dev-albtg-dev-app", var.customer)
 #  port     = 80
 #  protocol = "HTTP"
 #  vpc_id   = module.vpc.vpc_id
@@ -150,7 +181,7 @@ resource "aws_lb_target_group_attachment" "web-app-attach" {
 #  #   }
 #
 #  tags = merge(local.common_tags, {
-#    Name = format("%s-%s-albtg-dev-app", var.Customer, var.environment)
+#    Name = format("%s-%s-albtg-dev-app", var.customer, var.environment)
 #  })
 #}
 
