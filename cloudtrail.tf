@@ -11,7 +11,7 @@ module "cloudtrail" {
   is_multi_region_trail         = false
   enable_logging                = true
   s3_bucket_name                = module.cloudtrail_s3_bucket.bucket_id
-  kms_key_arn                   = "arn:aws:kms:us-west-2:272547513321:key/fbcca214-b78d-493b-915d-d75e4483e30a"
+  #kms_key_arn                   = "arn:aws:kms:us-west-2:272547513321:key/fbcca214-b78d-493b-915d-d75e4483e30a"
 }
 
 module "cloudtrail_s3_bucket" {
