@@ -38,7 +38,7 @@ resource "aws_iam_role" "ssm-s3-role" {
 
 #create policy s3
 resource "aws_iam_policy" "s3-ec2" {
-  name        = "test_policy"
+  name_prefix = format("%s-s3-policy", var.customer)
   description = "policy for ec2 access s3 bucket"
   policy      = file("template/s3-ec2.json")
 }
