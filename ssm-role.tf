@@ -36,6 +36,7 @@ resource "aws_iam_role" "ssm-s3-role" {
   })
 }
 
+#create policy s3
 resource "aws_iam_policy" "s3-ec2" {
   name        = "test_policy"
   description = "policy for ec2 access s3 bucket"
@@ -56,7 +57,7 @@ resource "aws_iam_role_policy_attachment" "ssmcore-attach-cwatch2" {
 
 #Attach Policy s3
 resource "aws_iam_role_policy_attachment" "ssmcore-attach-s3" {
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+  policy_arn = aws_iam_policy.s3-ec2.arn
   role       = aws_iam_role.ssm-s3-role.name
 }
 
