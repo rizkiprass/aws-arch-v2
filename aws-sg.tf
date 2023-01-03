@@ -243,74 +243,74 @@ resource "aws_security_group" "web-sg" {
   })
 }
 
-//mariadb-sg
-resource "aws_security_group" "db-server-sg" {
-  name = format("%s-%s-db-server-sg", var.project, var.environment)
-  description = format("%s-%s-db-server-sg", var.project, var.environment)
-  vpc_id = module.vpc.vpc_id
-  dynamic "ingress" {
-    for_each = var.mysql-port-list
-    content {
-      from_port = ingress.value
-      to_port = ingress.value
-      protocol = "tcp"
-      cidr_blocks = [
-        var.cidr]
-      description = ingress.key
-    }
-  }
-}
+#//mariadb-sg
+#resource "aws_security_group" "db-server-sg" {
+#  name = format("%s-%s-db-server-sg", var.project, var.environment)
+#  description = format("%s-%s-db-server-sg", var.project, var.environment)
+#  vpc_id = module.vpc.vpc_id
+#  dynamic "ingress" {
+#    for_each = var.mysql-port-list
+#    content {
+#      from_port = ingress.value
+#      to_port = ingress.value
+#      protocol = "tcp"
+#      cidr_blocks = [
+#        var.cidr]
+#      description = ingress.key
+#    }
+#  }
+#}
 
 # ALB Security Group
 resource "aws_security_group" "alb-sg" {
-  name = format("%s-%s-alb-sg", var.project, var.environment)
+  name        = format("%s-%s-alb-sg", var.project, var.environment)
   description = format("%s-%s-alb-sg", var.project, var.environment)
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
   dynamic "ingress" {
     for_each = var.alb-port-list
     content {
       from_port = ingress.value
-      to_port = ingress.value
-      protocol = "tcp"
+      to_port   = ingress.value
+      protocol  = "tcp"
       cidr_blocks = [
-        "0.0.0.0/0"]
+      "0.0.0.0/0"]
       description = ingress.key
     }
   }
   ingress {
     from_port = 5001
-    protocol = "tcp"
-    to_port = 5001
+    protocol  = "tcp"
+    to_port   = 5001
     cidr_blocks = [
-      "0.0.0.0/0"]
+    "0.0.0.0/0"]
   }
   ingress {
     from_port = 5001
-    protocol = "tcp"
-    to_port = 5001
+    protocol  = "tcp"
+    to_port   = 5001
     cidr_blocks = [
-      "0.0.0.0/0"]
+    "0.0.0.0/0"]
   }
   ingress {
     from_port = 22
-    protocol = "tcp"
-    to_port = 22
+    protocol  = "tcp"
+    to_port   = 22
     cidr_blocks = [
-      "0.0.0.0/0"]
+    "0.0.0.0/0"]
   }
   egress {
     from_port = 0
-    to_port = 0
-    protocol = "-1"
+    to_port   = 0
+    protocol  = "-1"
     cidr_blocks = [
-      "0.0.0.0/0"]
+    "0.0.0.0/0"]
   }
   tags = merge(local.common_tags, {
     Name = format("%s-%s-alb-sg", var.project, var.environment),
   })
   lifecycle {
     ignore_changes = [
-      ingress]
+    ingress]
   }
 }
 
@@ -354,50 +354,50 @@ resource "aws_security_group" "alb-sg" {
 //  })
 //}
 
-//Jenkins-App-sg
-resource "aws_security_group" "Jenkins-App-sg" {
-  name        = format("%s-jenkins-app-sg", var.project)
-  description = format("%s-jenkins-app-sg", var.project)
-  vpc_id      = module.vpc.vpc_id
-  ingress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-    cidr_blocks = [
-    "0.0.0.0/0"]
-    description = "ssh"
-  }
-
-  ingress {
-    from_port = 8080
-    to_port   = 8080
-    protocol  = "tcp"
-    cidr_blocks = [
-    "0.0.0.0/0"]
-    description = "web"
-  }
-
-  ingress {
-    from_port = 443
-    to_port   = 443
-    protocol  = "tcp"
-    cidr_blocks = [
-    "0.0.0.0/0"]
-    description = "https"
-  }
-
-  egress {
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
-    cidr_blocks = [
-    "0.0.0.0/0"]
-  }
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  tags = merge(local.common_tags, {
-    Name = format("%s-jenkins-sg", var.project)
-  })
-}
+#//Jenkins-App-sg
+#resource "aws_security_group" "Jenkins-App-sg" {
+#  name        = format("%s-jenkins-app-sg", var.project)
+#  description = format("%s-jenkins-app-sg", var.project)
+#  vpc_id      = module.vpc.vpc_id
+#  ingress {
+#    from_port = 22
+#    to_port   = 22
+#    protocol  = "tcp"
+#    cidr_blocks = [
+#    "0.0.0.0/0"]
+#    description = "ssh"
+#  }
+#
+#  ingress {
+#    from_port = 8080
+#    to_port   = 8080
+#    protocol  = "tcp"
+#    cidr_blocks = [
+#    "0.0.0.0/0"]
+#    description = "web"
+#  }
+#
+#  ingress {
+#    from_port = 443
+#    to_port   = 443
+#    protocol  = "tcp"
+#    cidr_blocks = [
+#    "0.0.0.0/0"]
+#    description = "https"
+#  }
+#
+#  egress {
+#    from_port = 0
+#    to_port   = 0
+#    protocol  = "-1"
+#    cidr_blocks = [
+#    "0.0.0.0/0"]
+#  }
+#  lifecycle {
+#    create_before_destroy = true
+#  }
+#
+#  tags = merge(local.common_tags, {
+#    Name = format("%s-jenkins-sg", var.project)
+#  })
+#}

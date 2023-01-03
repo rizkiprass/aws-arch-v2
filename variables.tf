@@ -1,6 +1,6 @@
 variable "aws_region" {
   description = "AWS Region"
-  default     = "us-east-1"
+  default     = "us-west-2"
 }
 
 variable "access_key" {
@@ -20,48 +20,48 @@ variable "Backup" {
   default = "BackupDaily"
 }
 variable "region" {
-  default = "us-east-1"
+  default = "us-west-2"
 }
 
 variable "cidr" {
-  default = "10.0.0.0/16"
+  default = "30.0.0.0/16"
 }
 
 variable "cidr2" {
-  default = "10.1.0.0/16"
+  default = "30.1.0.0/16"
 }
 
 variable "Public_Subnet_AZ1" {
-  default = "10.0.0.0/24"
+  default = "30.0.0.0/24"
 }
 
 variable "Public_Subnet_AZ1_2" {
-  default = "10.1.0.0/24"
+  default = "30.1.0.0/24"
 }
 
 variable "Public_Subnet_AZ2" {
-  default = "10.0.1.0/24"
+  default = "30.0.1.0/24"
 }
 
 variable "Public_Subnet_AZ2_2" {
-  default = "10.1.1.0/24"
+  default = "30.1.1.0/24"
 }
 
 
 variable "App_Subnet_AZ1" {
-  default = "10.0.10.0/24"
+  default = "30.0.10.0/24"
 }
 
 variable "App_Subnet_AZ2" {
-  default = "10.0.11.0/24"
+  default = "30.0.11.0/24"
 }
 
 variable "Data_Subnet_AZ1" {
-  default = "10.0.20.0/24"
+  default = "30.0.20.0/24"
 }
 
 variable "Data_Subnet_AZ2" {
-  default = "10.0.21.0/24"
+  default = "30.0.21.0/24"
 }
 
 #ami
@@ -100,7 +100,7 @@ locals {
   }
 }
 
-variable "Customer" {
+variable "customer" {
   default = "Sandbox"
 }
 

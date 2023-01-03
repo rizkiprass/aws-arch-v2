@@ -1,7 +1,7 @@
 //Server web-App
-resource "aws_instance" "web-app" { //nama web-app samakan dengan nama servernya
-  ami                         = var.ami-linux2
-  instance_type               = "t3.medium"
+resource "aws_instance" "web-app" {
+  ami                         = "ami-0530ca8899fac469f"
+  instance_type               = "t3.micro"
   associate_public_ip_address = "false"
   key_name                    = "webmaster-key"
   subnet_id                   = module.vpc.private_subnets[0]
@@ -18,19 +18,19 @@ resource "aws_instance" "web-app" { //nama web-app samakan dengan nama servernya
     encrypted             = true
     delete_on_termination = true
     tags = merge(local.common_tags, {
-      Name = format("%s-%s-webmaster-ebs", var.Customer, var.environment)
+      Name = format("%s-%s-webmaster-ebs", var.customer, var.environment)
     })
   }
 
   #user_data = file("userdata-with-caching.sh")
 
   lifecycle {
-    ignore_changes = [associate_public_ip_address]
+    ignore_changes        = [associate_public_ip_address]
     create_before_destroy = false
   }
 
   tags = merge(local.common_tags, {
-    Name                = format("%s-%s-webmaster", var.Customer, var.environment),
+    Name                = format("%s-%s-webmaster", var.customer, var.environment),
     start-stop-schedule = false,
     OS                  = "Ubuntu",
     Backup              = "DailyBackup" # TODO: Set Backup Rules
@@ -60,7 +60,7 @@ resource "aws_instance" "bastion" {
     encrypted             = true
     delete_on_termination = true
     tags = merge(local.common_tags, {
-      Name = format("%s-%s-bastion-ebs", var.Customer, var.environment)
+      Name = format("%s-%s-bastion-ebs", var.customer, var.environment)
     })
   }
 
@@ -69,7 +69,7 @@ resource "aws_instance" "bastion" {
   }
 
   tags = merge(local.common_tags, {
-    Name                = format("%s-%s-bastion", var.Customer, var.environment),
+    Name                = format("%s-%s-bastion", var.customer, var.environment),
     start-stop-schedule = false,
     OS                  = "amazon-linux",
     Backup              = "DailyBackup" # TODO: Set Backup Rules
@@ -98,7 +98,7 @@ resource "aws_instance" "bastion" {
 #    encrypted             = true
 #    delete_on_termination = true
 #    tags = merge(local.common_tags, {
-#      Name = format("%s-%s-jenkins-ebs", var.Customer, var.environment)
+#      Name = format("%s-%s-jenkins-ebs", var.customer, var.environment)
 #    })
 #  }
 #
@@ -109,7 +109,7 @@ resource "aws_instance" "bastion" {
 #  }
 #
 #  tags = merge(local.common_tags, {
-#    Name                = format("%s-%s-jenkins", var.Customer, var.environment),
+#    Name                = format("%s-%s-jenkins", var.customer, var.environment),
 #    start-stop-schedule = false,
 #    OS                  = "Ubuntu",
 #    Backup              = "DailyBackup" # TODO: Set Backup Rules
@@ -137,12 +137,12 @@ resource "aws_instance" "bastion" {
 #    encrypted             = true
 #    delete_on_termination = true
 #    tags = merge(local.common_tags, {
-#      Name = format("%s-%s-data", var.Customer, var.environment)
+#      Name = format("%s-%s-data", var.customer, var.environment)
 #    })
 #  }
 #
 #  tags = merge(local.common_tags, {
-#    Name                = format("%s-%s-Data-rpras", var.Customer, var.environment),
+#    Name                = format("%s-%s-Data-rpras", var.customer, var.environment),
 #    start-stop-schedule = false,
 #    OS                  = "Ubuntu",
 #    Backup              = "DailyBackup" # TODO: Set Backup Rules

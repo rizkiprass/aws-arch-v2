@@ -28,7 +28,7 @@ resource "tls_private_key" "pk" {
 }
 
 resource "aws_key_pair" "webmaster-key" {
-  key_name   = "webmaster-key"       # Create "myKey" to AWS!!
+  key_name   = "webmaster-key" # Create "myKey" to AWS!!
   public_key = tls_private_key.pk.public_key_openssh
 
   provisioner "local-exec" { # Create "myKey.pem" to your computer!!
@@ -37,7 +37,7 @@ resource "aws_key_pair" "webmaster-key" {
 }
 
 resource "aws_key_pair" "bastion-key" {
-  key_name   = "bastion-key"       # Create "myKey" to AWS!!
+  key_name   = "bastion-key" # Create "myKey" to AWS!!
   public_key = tls_private_key.pk.public_key_openssh
 
   provisioner "local-exec" { # Create "myKey.pem" to your computer!!
