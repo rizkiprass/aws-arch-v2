@@ -3,6 +3,7 @@ module "cloudtrail" {
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
   namespace                     = "sandbox"
+#  s3_key_prefix                 = "mgmt"
   stage                         = "dev"
   name                          = "trail"
   enable_log_file_validation    = true
@@ -10,6 +11,7 @@ module "cloudtrail" {
   is_multi_region_trail         = false
   enable_logging                = true
   s3_bucket_name                = module.cloudtrail_s3_bucket.bucket_id
+  kms_key_arn =
 }
 
 module "cloudtrail_s3_bucket" {
@@ -18,5 +20,6 @@ module "cloudtrail_s3_bucket" {
   # version     = "x.x.x"
   namespace = "sandbox"
   stage     = "dev"
-  name      = "trail"
+  name      = "trail" #next update with management trail
+  #will create bucket name sandbox-dev-trail
 }
