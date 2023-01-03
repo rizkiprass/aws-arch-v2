@@ -239,7 +239,7 @@ resource "aws_security_group" "web-sg" {
   }
 
   tags = merge(local.common_tags, {
-    Name = format("%s-%s-App-sg", var.project, var.environment)
+    Name = format("%s-%s-web-sg", var.project, var.environment)
   })
 }
 
