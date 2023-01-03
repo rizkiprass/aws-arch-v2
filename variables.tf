@@ -101,7 +101,7 @@ locals {
 }
 
 variable "customer" {
-  default = "Sandbox"
+  default = "sandbox"
 }
 
 #key
