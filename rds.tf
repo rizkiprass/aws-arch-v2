@@ -8,8 +8,8 @@ locals {
 
   engine               = "mysql"
   engine_version       = "5.7.34"
-  family               = "mysql57" # DB parameter group
-  major_engine_version = "5.7"     # DB option group
+  family               = "mysql5.7" # DB parameter group
+  major_engine_version = "5.7"      # DB option group
   instance_class       = "db.t3.micro"
   allocated_storage    = 30
   port                 = 3306

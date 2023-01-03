@@ -83,7 +83,7 @@ variable "environment_dev" {
   default = "dev"
 }
 variable "project" {
-  default = "Sandbox"
+  default = "sandbox"
 }
 
 locals {
