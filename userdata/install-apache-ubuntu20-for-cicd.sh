@@ -2,6 +2,7 @@
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 # package updates
 sudo apt update -y
+sudo apt upgrade -y
 # apache installation, enabling and status check
 sudo apt -y install apache2
 sudo systemctl enable apache2.service
@@ -40,9 +41,32 @@ cat << EOF > $block
 </VirtualHost>
 EOF
 
-# Create the index.html:
-echo "<h1>welcome</h1>" | sudo tee $root/index.html
+## Create the index.html:
+#echo "<h1>welcome</h1>" | sudo tee $root/index.html
+
+# Disabling Apache welocme page
+mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf_backup
 
 # Reload apache
 #sudo systemctl restart apache2.service
 sudo service apache2 reload
+
+# install php
+echo "Installing php"
+sudo apt -y install php7.4
+sudo apt install php7.4-{mysql,zip,bcmath} -y
+sudo systemctl restart apache2
+php --version
+
+# Install Codedeploy Agent ubuntu
+#https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
+
+echo "Installing codedeployagent"
+sudo apt install ruby-full -y
+sudo apt install wget -y
+cd /home/ubuntu
+wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto > /tmp/logfile
+sudo service codedeploy-agent start
+sudo service codedeploy-agent status

@@ -22,7 +22,7 @@ resource "aws_instance" "web-app" {
     })
   }
 
-  user_data = file("./userdata/install-apache-ubuntu.sh")
+  user_data = file("./userdata/install-apache-ubuntu20-for-cicd.sh")
 
   lifecycle {
     ignore_changes        = [associate_public_ip_address]
