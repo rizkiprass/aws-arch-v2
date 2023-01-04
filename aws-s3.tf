@@ -46,3 +46,12 @@ resource "aws_s3_bucket" "cms" {
     Name = format("%s-%s-cms.rp-server.site", var.customer, var.environment),
   })
 }
+
+#Bucket for codedeploy
+resource "aws_s3_bucket" "sandbox-artifact" {
+  bucket = "pras-sandbox-pipeline-artifact-04012023"
+
+  tags = merge(local.common_tags, {
+    Name = format("%s-%s-pipeline-artifact", var.project, var.environment),
+  })
+}
