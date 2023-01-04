@@ -125,7 +125,7 @@ resource "aws_codepipeline" "this-sandbox-pipeline" {
 
       configuration = {
         RepositoryName = aws_codecommit_repository.sandbox-cicd.repository_name
-        BranchName     = "master"
+        BranchName     = "main"
       }
     }
 
