@@ -66,7 +66,7 @@ module "master" {
   backup_retention_period = 1
   skip_final_snapshot     = true
   deletion_protection     = true
-  name  = "sandbox-db"
+  name                    = "sandbox-db"
   username                = "master"
   password                = random_string.dbpass.result
   availability_zone       = "${var.region}a"
