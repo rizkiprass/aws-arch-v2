@@ -9,8 +9,8 @@ LOG_CHANNEL=stack
 DB_CONNECTION=mysql
 DB_HOST=pras-sandbox-mysql.cztg5toglj5t.us-west-2.rds.amazonaws.com
 DB_PORT=3306
-DB_DATABASE=rdsmysql
-DB_USERNAME=admin
+DB_DATABASE=sandboxdb
+DB_USERNAME=master
 DB_PASSWORD=nTR0lqdTpflRlS2!!^fG8FMjH44XDREk
 
 BROADCAST_DRIVER=log
