@@ -24,12 +24,13 @@ module "autoscaling-launchtemplate" {
   update_default_version      = true
   key_name                    = "webmaster-key"
   termination_policies        = ["OldestInstance"]
+  user_data                   = base64encode(file("./userdata/userdata-install-apache.sh"))
 
   image_id      = "ami-0568896068fd43326"
   instance_type = "t3.micro"
-  #  user_data         = base64encode(local.user_data)
 
-  iam_instance_profile_arn = aws_iam_instance_profile.ssm-profile.arn
+
+  iam_instance_profile_arn = aws_iam_instance_profile.ssm-codedeploy-profile.arn
 
   security_groups = [aws_security_group.web-sg.id]
 

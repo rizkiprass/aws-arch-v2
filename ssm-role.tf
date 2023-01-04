@@ -66,3 +66,35 @@ resource "aws_iam_instance_profile" "ssm-s3-profile" {
   name = format("%s-ssm-s3-profile", var.customer)
   role = aws_iam_role.ssm-s3-role.name
 }
+############################### FOR CODEDEPLOY ##########################################
+#1.Attach Policy SSMCore
+resource "aws_iam_role_policy_attachment" "ssmcore-attach-ssmcore" {
+  role       = aws_iam_role.ssmcore-codedeploy-role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+#2.Attach Policy CloudWatch
+resource "aws_iam_role_policy_attachment" "ssmcore-attach-cwatch" {
+  role       = aws_iam_role.ssmcore-codedeploy-role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}
+
+#3.Attach Policy codedeploy-ec2
+resource "aws_iam_role_policy_attachment" "ssmcore-attach-codedeploy-ec2" {
+  role       = aws_iam_role.ssmcore-codedeploy-role.name
+  policy_arn = aws_iam_policy.codedeploy-service-as.arn
+}
+#Instance Profile
+resource "aws_iam_instance_profile" "ssm-codedeploy-profile" {
+  role = aws_iam_role.ssmcore-codedeploy-role.name
+  name = format("%s-ssm-codedeploy-profile", var.project)
+}
+
+#Create Role for ec2 contain 1.ssminstancecore, 2.cwagent, 3.codedeploy policy
+resource "aws_iam_role" "ssmcore-codedeploy-role" {
+  name               = format("%s-ssmcore-codedeploy-role", var.project)
+  assume_role_policy = file("template/assumepolicy.json")
+  tags = merge(local.common_tags, {
+    Name = format("%s-ssmcore-codedeploy-role", var.project)
+  })
+}
