@@ -30,7 +30,7 @@ module "autoscaling-launchtemplate" {
   instance_type = "t3.micro"
 
 
-  iam_instance_profile_arn = aws_iam_instance_profile.ssm-codedeploy-profile.arn
+#  iam_instance_profile_arn = aws_iam_instance_profile.ssm-codedeploy-profile.arn
 
   security_groups = [aws_security_group.web-sg.id]
 
