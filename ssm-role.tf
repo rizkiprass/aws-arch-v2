@@ -87,7 +87,7 @@ resource "aws_iam_role_policy_attachment" "ssmcore-attach-codedeploy-ec2" {
 #Instance Profile
 resource "aws_iam_instance_profile" "ssm-codedeploy-profile" {
   role = aws_iam_role.ssmcore-codedeploy-role.name
-  name = format("%s-ssm-codedeploy-profile", var.project)
+  name = format("%s-ssm-codedeploy-profile2", var.project)
 }
 
 #Create Role for ec2 contain 1.ssminstancecore, 2.cwagent, 3.codedeploy policy

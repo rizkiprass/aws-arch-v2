@@ -13,3 +13,8 @@
 -naming locals ec2 ebs
 -vpc peering
 -coba keypair dari faris
+
+if you deploy with cicd, dont forget this step:
+1. deploy first codecommit and push code
+2. deploy parameter store
+3. install dependency like php codedeploy agent
