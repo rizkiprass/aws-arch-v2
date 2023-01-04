@@ -18,3 +18,6 @@ if you deploy with cicd, dont forget this step:
 1. deploy first codecommit and push code
 2. deploy parameter store
 3. install dependency like php codedeploy agent
+4. make image then apply image to lt
+5. test the instance at asg, if work continue to next step
+6. run the pipeline, if fail : make sure you have right instance profile at asg and have codedeploy agent script at user data
