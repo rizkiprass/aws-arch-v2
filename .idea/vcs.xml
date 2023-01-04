@@ -4,6 +4,8 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.terraform/modules/vpc" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.terraform/modules/vpc2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/laravel-app-sample" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/repo-codecommit/pras-sandbox-cicd" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../aws-demos" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../website-forjenkins" vcs="Git" />
   </component>
