@@ -68,13 +68,13 @@ resource "aws_iam_instance_profile" "ssm-s3-profile" {
 }
 ############################### FOR CODEDEPLOY ##########################################
 #1.Attach Policy SSMCore
-resource "aws_iam_role_policy_attachment" "ssmcore-attach-ssmcore" {
+resource "aws_iam_role_policy_attachment" "ssmcore-attach-ssmcore3" {
   role       = aws_iam_role.ssmcore-codedeploy-role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 #2.Attach Policy CloudWatch
-resource "aws_iam_role_policy_attachment" "ssmcore-attach-cwatch" {
+resource "aws_iam_role_policy_attachment" "ssmcore-attach-cwatch3" {
   role       = aws_iam_role.ssmcore-codedeploy-role.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }

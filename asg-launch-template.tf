@@ -24,7 +24,7 @@ module "autoscaling-launchtemplate" {
   update_default_version      = true
   key_name                    = "webmaster-key"
   termination_policies        = ["OldestInstance"]
-  user_data                   = base64encode(file("./userdata/userdata-install-apache.sh"))
+  user_data                   = base64encode(file("./userdata/install-apache-ubuntu20-for-cicd.sh"))
 
   image_id      = "ami-0568896068fd43326"
   instance_type = "t3.micro"
