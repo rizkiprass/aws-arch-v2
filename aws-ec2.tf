@@ -1,6 +1,6 @@
 //Server web-App
 resource "aws_instance" "web-app" {
-  ami                         = "ami-0530ca8899fac469f"
+  ami                         = "ami-0530ca8899fac469f" #ubuntu20
   instance_type               = "t3.micro"
   associate_public_ip_address = "false"
   key_name                    = "webmaster-key"
@@ -22,7 +22,7 @@ resource "aws_instance" "web-app" {
     })
   }
 
-  user_data = file("./userdata/install-apache.sh")
+  user_data = file("./userdata/install-apache-ubuntu.sh")
 
   lifecycle {
     ignore_changes        = [associate_public_ip_address]
