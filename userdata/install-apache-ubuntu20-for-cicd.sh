@@ -59,8 +59,7 @@ sudo systemctl restart apache2
 php --version
 
 # Install Codedeploy Agent ubuntu
-#https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
-
+#for more info: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
 echo "Installing codedeployagent"
 sudo apt install ruby-full -y
 sudo apt install wget -y
