@@ -24,8 +24,6 @@ cat << EOF > $block
 </VirtualHost>
 EOF
 
-## Create the index.html:
-#echo "<h1>welcome</h1>" | sudo tee $root/index.html
 
 # Disabling Apache welocme page
 mv /etc/httpd/conf.d/welcome.conf /etc/httpd/conf.d/welcome.conf_backup

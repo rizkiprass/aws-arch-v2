@@ -26,7 +26,7 @@ sudo systemctl status apache2.service
 #EOF
 # apache configuration
 domain=test.com
-root="/var/www/html/public"
+root="/var/www/html/test.com"
 block="/etc/apache2/sites-available/test.conf"
 
 sudo mkdir -p $root
@@ -40,6 +40,9 @@ cat << EOF > $block
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 EOF
+
+# Create the index.html:
+echo "<h1>welcome</h1>" | sudo tee $root/index.html
 
 #enable a new site
 sudo a2ensite test.conf
