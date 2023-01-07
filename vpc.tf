@@ -31,10 +31,10 @@ module "vpc" {
 
   tags = local.common_tags
 
-  //tags for vpc flow logs
-  vpc_flow_log_tags = {
-    Name = format("%s-%s-vpc-flowlogs", var.customer, var.environment)
-  }
+#  //tags for vpc flow logs
+#  vpc_flow_log_tags = {
+#    Name = format("%s-%s-vpc-flowlogs", var.customer, var.environment)
+#  }
 }
 
 //eip for nat
