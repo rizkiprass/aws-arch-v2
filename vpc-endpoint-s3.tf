@@ -6,7 +6,7 @@ module "vpc_endpoints" {
   source = "./.terraform/modules/vpc/modules/vpc-endpoints"
 
   vpc_id             = module.vpc.vpc_id
-  security_group_ids = []
+#  security_group_ids = []
 
   endpoints = {
     s3 = {
