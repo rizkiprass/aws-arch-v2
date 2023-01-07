@@ -10,4 +10,4 @@ resource "aws_lb" "web-alb" {
   tags = merge(local.common_tags, {
     Name = format("%s-%s-web-alb", var.customer, var.environment)
   })
-}
+}S
