@@ -79,7 +79,7 @@ resource "aws_cloudwatch_metric_alarm" "linux-instance-disk" {
         ImageId = data.aws_instance.instance-lookup.ami,
         path = var.disk-partition,
         device = "nvme0n1p1",
-        fstype = data.aws_instance.instance-lookup.tags["OS"] == "Amazon-Linux-2" ? "xfs" : "ext4"
+        fstype       = data.aws_instance.instance-lookup.tags["OS"] == "ubuntu" ? "ext4" : "xfs"
       }
     }
   }

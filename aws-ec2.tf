@@ -18,7 +18,7 @@ resource "aws_instance" "web-app" {
     encrypted             = true
     delete_on_termination = true
     tags = merge(local.common_tags, {
-      Name = format("%s-%s-webmaster-ebs", var.customer, var.environment)
+      Name = format("%s-ebs", aws_instance.web-app.tags["Name"])
     })
   }
 

@@ -59,15 +59,3 @@ sudo apt -y install php7.4
 sudo apt install php7.4-{mysql,zip,bcmath} -y
 sudo systemctl restart apache2
 php --version
-
-# Install Codedeploy Agent ubuntu
-#for more info: https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
-echo "Installing codedeployagent"
-sudo apt install ruby-full -y
-sudo apt install wget -y
-cd /home/ubuntu
-wget https://aws-codedeploy-us-west-2.s3.us-west-2.amazonaws.com/latest/install
-chmod +x ./install
-sudo ./install auto > /tmp/logfile
-sudo service codedeploy-agent start
-sudo service codedeploy-agent status
