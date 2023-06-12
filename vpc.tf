@@ -10,7 +10,7 @@ module "vpc" {
   azs                              = ["${var.region}a", "${var.region}b"]
   public_subnets                   = [var.Public_Subnet_AZ1, var.Public_Subnet_AZ2]
   private_subnets                  = [var.App_Subnet_AZ1, var.App_Subnet_AZ2]
-  database_subnets                 = [var.Data_Subnet_AZ1, var.Data_Subnet_AZ2]
+  intra_subnets                 = [var.Data_Subnet_AZ1, var.Data_Subnet_AZ2]
   # Nat Gateway
   enable_nat_gateway = true
   single_nat_gateway = true #if true, nat gateway only create one
@@ -19,7 +19,7 @@ module "vpc" {
   external_nat_ip_ids    = [aws_eip.eip-nat-sandbox.id] #attach eip from manual create eip
   public_subnet_suffix   = "public"
   private_subnet_suffix  = "private"
-  database_subnet_suffix = "db"
+  intra_subnet_suffix = "db"
   #  intra_subnet_suffix   = "data"
 
   #  # VPC Flow Logs (Cloudwatch log group and IAM role will be created)
