@@ -11,7 +11,7 @@ DB_HOST=pras-sandbox-mysql.cztg5toglj5t.us-west-2.rds.amazonaws.com
 DB_PORT=3306
 DB_DATABASE=sandboxdb
 DB_USERNAME=master
-DB_PASSWORD=6PLAo2XrUbwSpjN2Lr#u8uoysQlKD$uR
+DB_PASSWORD=
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
