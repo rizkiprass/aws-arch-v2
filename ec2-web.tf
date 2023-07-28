@@ -22,7 +22,7 @@ resource "aws_instance" "web-app" {
     encrypted             = true
     delete_on_termination = true
     tags = merge(local.common_tags, {
-      Name = format("%s-ebs", local.web_name)
+        Name = format("%s-ebs", local.web_name)
     })
   }
 
