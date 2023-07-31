@@ -102,3 +102,43 @@ resource "aws_route_table_association" "rt-subnet-assoc-data-3a" {
   subnet_id      = aws_subnet.subnet-db-1a.id
   route_table_id = aws_route_table.data-rt.id
 }
+
+//Create a app subnet
+resource "aws_subnet" "subnet-app-1a" {
+  vpc_id            = module.vpc.vpc_id
+  cidr_block        = var.App_Subnet_AZA
+  availability_zone = format("%sa", var.aws_region)
+
+  tags = merge(local.common_tags,
+    {
+      Name = format("%s-%s-app-subnet-3a", var.customer, var.environment) //
+  })
+}
+
+resource "aws_subnet" "subnet-app-1b" {
+  vpc_id            = module.vpc.vpc_id
+  cidr_block        = var.App_Subnet_AZB
+  availability_zone = format("%sb", var.aws_region)
+
+  tags = merge(local.common_tags,
+    {
+      Name = format("%s-%s-app-subnet-3b", var.customer, var.environment) //
+  })
+}
+
+resource "aws_route_table" "app-rt" {
+  vpc_id = module.vpc.vpc_id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = module.vpc.natgw_ids[0]
+  }
+
+  tags = merge(local.common_tags, {
+    Name = format("%s-%s-app-rt", var.customer, var.environment)
+  })
+}
+
+resource "aws_route_table_association" "rt-subnet-assoc-app-3a" {
+  subnet_id      = aws_subnet.subnet-app-1a.id
+  route_table_id = aws_route_table.app-rt.id
+}

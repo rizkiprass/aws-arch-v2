@@ -7,18 +7,7 @@ variable "access_key" {}
 
 variable "secret_key" {}
 
-// Tag
-variable "Birthday" {
-  default = "26-01-2022"
-}
-
-variable "Backup" {
-  default = "BackupDaily"
-}
-variable "region" {
-  default = "us-west-2"
-}
-
+################# CIDR ##################
 variable "cidr" {
   default = "30.0.0.0/16"
 }
@@ -58,14 +47,17 @@ variable "Data_Subnet_AZB" {
   default = "30.0.21.0/24"
 }
 
-#ami
+############################# TAG ##################################
 
-variable "ami-ubuntu" {
-  default = "ami-04505e74c0741db8d"
+variable "Birthday" {
+  default = "26-01-2022"
 }
 
-variable "ami-linux2" {
-  default = "ami-05fa00d4c63e32376"
+variable "Backup" {
+  default = "BackupDaily"
+}
+variable "region" {
+  default = "us-west-2"
 }
 
 #Tagging Common
@@ -76,7 +68,12 @@ variable "environment" {
 variable "environment_dev" {
   default = "dev"
 }
+
 variable "project" {
+  default = "sandbox"
+}
+
+variable "customer" {
   default = "sandbox"
 }
 
@@ -94,27 +91,7 @@ locals {
   }
 }
 
-variable "customer" {
-  default = "sandbox"
-}
-
 #key
 variable "key-bastion-inject" {
   default = "bastion-inject"
-}
-
-variable "key-sandbox-prod-app" {
-  default = "key-sandbox-prod-app"
-}
-
-variable "key-sandbox-dev-app" {
-  default = "key-sandbox-dev-app"
-}
-
-variable "key-sandbox-data" {
-  default = "key-sandbox-data"
-}
-
-variable "key-sandbox-openvpn" {
-  default = "key-sandbox-openvpn"
 }
