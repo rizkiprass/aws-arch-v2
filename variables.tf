@@ -1,6 +1,6 @@
 variable "aws_region" {
   description = "AWS Region"
-  default     = "us-west-2"
+  default     = "eu-west-2"
 }
 
 variable "access_key" {}
@@ -16,7 +16,7 @@ variable "Backup" {
   default = "BackupDaily"
 }
 variable "region" {
-  default = "us-west-2"
+  default = "eu-west-2"
 }
 
 variable "cidr" {
