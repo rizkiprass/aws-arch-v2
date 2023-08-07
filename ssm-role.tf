@@ -1,6 +1,6 @@
 #Create Role ssm core role
 resource "aws_iam_role" "ssm-core-role" {
-  name_prefix        = format("%s-ssm-core-role", var.customer)
+  name        = format("%s-ssm-core-role", var.customer)
   assume_role_policy = file("template/assumepolicy.json")
   tags = merge(local.common_tags, {
     Name = format("%s-ssm-core-role", var.customer)
@@ -29,7 +29,7 @@ resource "aws_iam_instance_profile" "ssm-profile" {
 ##################################################################
 #Create Role s3 role
 resource "aws_iam_role" "ssm-s3-role" {
-  name_prefix        = format("%s-ssm-s3-role", var.customer)
+  name        = format("%s-ssm-s3-role", var.customer)
   assume_role_policy = file("template/assumepolicy.json")
   tags = merge(local.common_tags, {
     Name = format("%s-ssm-s3-role", var.customer)
@@ -38,7 +38,7 @@ resource "aws_iam_role" "ssm-s3-role" {
 
 #create policy s3
 resource "aws_iam_policy" "s3-ec2" {
-  name_prefix = format("%s-s3-policy", var.customer)
+  name = format("%s-s3-policy", var.customer)
   description = "policy for ec2 access s3 bucket"
   policy      = file("template/s3-ec2.json")
 }
