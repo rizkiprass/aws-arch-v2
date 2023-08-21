@@ -1,13 +1,24 @@
 variable "aws_region" {
   description = "AWS Region"
-  default     = "us-west-2"
+  default     = "eu-west-2"
 }
 
 variable "access_key" {}
 
 variable "secret_key" {}
 
-################# CIDR ##################
+// Tag
+variable "Birthday" {
+  default = "26-01-2022"
+}
+
+variable "Backup" {
+  default = "BackupDaily"
+}
+variable "region" {
+  default = "eu-west-2"
+}
+
 variable "cidr" {
   default = "30.0.0.0/16"
 }
@@ -47,17 +58,14 @@ variable "Data_Subnet_AZB" {
   default = "30.0.21.0/24"
 }
 
-############################# TAG ##################################
+#ami
 
-variable "Birthday" {
-  default = "26-01-2022"
+variable "ami-ubuntu" {
+  default = "ami-04505e74c0741db8d"
 }
 
-variable "Backup" {
-  default = "BackupDaily"
-}
-variable "region" {
-  default = "us-west-2"
+variable "ami-linux2" {
+  default = "ami-05fa00d4c63e32376"
 }
 
 #Tagging Common
@@ -68,12 +76,7 @@ variable "environment" {
 variable "environment_dev" {
   default = "dev"
 }
-
 variable "project" {
-  default = "sandbox"
-}
-
-variable "customer" {
   default = "sandbox"
 }
 
