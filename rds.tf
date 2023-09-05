@@ -1,13 +1,13 @@
 locals {
-  name   = "pras-sandbox-mysql"
+  name   = "sandbox-mysql"
   region = var.aws_region
   tags = {
-    customer    = var.customer
+    project     = var.project
     environment = var.environment
   }
 
   engine               = "mysql"
-  engine_version       = "5.7.34"
+  engine_version       = "5.7"
   family               = "mysql5.7" # DB parameter group
   major_engine_version = "5.7"      # DB option group
   instance_class       = "db.t3.micro"
@@ -16,7 +16,7 @@ locals {
 }
 
 resource "random_string" "dbpass" {
-  length           = 32
+  length           = 16
   upper            = true
   lower            = true
   numeric          = true
@@ -30,7 +30,7 @@ resource "random_string" "dbpass" {
 
 module "master" {
   source  = "terraform-aws-modules/rds/aws"
-  version = "~> 3.0"
+  version = "~> 6.1.1"
 
   identifier = local.name #The name of the RDS instance
 
@@ -53,6 +53,7 @@ module "master" {
 
   port = local.port
 
+  publicly_accessible    = false
   multi_az               = false
   create_db_subnet_group = false
   db_subnet_group_name   = aws_db_subnet_group.rds-subnet.name
@@ -63,26 +64,27 @@ module "master" {
   enabled_cloudwatch_logs_exports = ["general"]
 
   # Backups are required in order to create a replica
-  backup_retention_period = 1
-  skip_final_snapshot     = true
-  deletion_protection     = true
-  name                    = "sandboxdb"
-  username                = "master"
-  password                = random_string.dbpass.result
-  availability_zone       = "${var.region}a"
+  backup_retention_period     = 1
+  skip_final_snapshot         = true
+  deletion_protection         = false
+  db_name                     = "mydb"
+  username                    = "admin"
+  manage_master_user_password = false
+  password                    = random_string.dbpass.result
+  availability_zone           = "${var.region}a"
 
   tags = {
-    Name        = format("%s-%s-rds", var.customer, var.environment)
+    Name        = format("%s-%s-rds", var.project, var.environment)
     Environment = var.environment
   }
 }
 
 resource "aws_db_subnet_group" "rds-subnet" {
-  name       = format("%s-%s-rds-subnet", var.customer, var.environment)
+  name       = format("%s-%s-rds-subnet", var.project, var.environment)
   subnet_ids = [module.vpc.database_subnets[0], module.vpc.database_subnets[1]]
 
   tags = {
-    Name        = format("%s-%s-subnet-group", var.customer, var.environment)
+    Name        = format("%s-%s-subnet-group", var.project, var.environment)
     ENVIRONMENT = var.environment
   }
 }
@@ -96,7 +98,7 @@ resource "aws_security_group" "rds_sg" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = [var.cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
