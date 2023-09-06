@@ -9,8 +9,8 @@ resource "aws_instance" "openvpn" {
   key_name               = "pb-openvpn-key"
   subnet_id              = module.vpc.public_subnets[0]
   vpc_security_group_ids = [aws_security_group.openvpn-sg.id]
-    iam_instance_profile   = aws_iam_instance_profile.ssm-profile.name
-  user_data = file("open-vpn.sh")
+  iam_instance_profile   = aws_iam_instance_profile.ssm-profile.name
+  user_data              = file("open-vpn.sh")
 
   metadata_options {
     http_endpoint = "enabled"

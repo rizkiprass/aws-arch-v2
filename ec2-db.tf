@@ -31,8 +31,8 @@ resource "aws_instance" "db" {
   }
 
   tags = merge(local.common_tags, {
-    Name                = local.db_name,
-    OS                  = "Ubuntu",
-    Backup              = "DailyBackup" # TODO: Set Backup Rules
+    Name   = local.db_name,
+    OS     = "Ubuntu",
+    Backup = "DailyBackup" # TODO: Set Backup Rules
   })
 }
