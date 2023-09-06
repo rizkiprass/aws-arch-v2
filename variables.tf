@@ -94,27 +94,7 @@ locals {
   }
 }
 
-variable "customer" {
-  default = "sandbox"
-}
-
 #key
 variable "key-bastion-inject" {
   default = "bastion-inject"
-}
-
-variable "key-sandbox-prod-app" {
-  default = "key-sandbox-prod-app"
-}
-
-variable "key-sandbox-dev-app" {
-  default = "key-sandbox-dev-app"
-}
-
-variable "key-sandbox-data" {
-  default = "key-sandbox-data"
-}
-
-variable "key-sandbox-openvpn" {
-  default = "key-sandbox-openvpn"
 }
