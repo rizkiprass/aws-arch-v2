@@ -401,3 +401,30 @@ resource "aws_security_group" "alb-sg" {
 #    Name = format("%s-jenkins-sg", var.project)
 #  })
 #}
+
+resource "aws_security_group" "jumphost-sg" {
+  name        = format("%s-%s-jumphost-sg", var.project, var.environment)
+  description = format("%s-%s-jumphost-sg", var.project, var.environment)
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port = 3389
+    to_port   = 3389
+    protocol  = "tcp"
+    cidr_blocks = [
+    "0.0.0.0/0"]
+    description = "http"
+  }
+
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1" //all traffic
+    cidr_blocks = [
+    "0.0.0.0/0"]
+  }
+  tags = local.common_tags
+
+  lifecycle { ignore_changes = [ingress, egress] }
+
+}

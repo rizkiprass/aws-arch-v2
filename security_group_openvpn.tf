@@ -6,7 +6,7 @@ locals {
 resource "aws_security_group" "openvpn-sg" {
   name        = local.sg_openvpn_name
   description = local.sg_openvpn_name
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     from_port = 1194

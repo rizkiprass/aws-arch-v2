@@ -4,7 +4,7 @@ locals {
 
 //Server Private web
 resource "aws_instance" "web-app" {
-  ami                         = var.ami-centos-stream-9
+  ami                         = ""
   instance_type               = "r5.xlarge"
   associate_public_ip_address = "false"
   key_name                    = "pb-web-key"
@@ -22,7 +22,7 @@ resource "aws_instance" "web-app" {
     encrypted             = true
     delete_on_termination = true
     tags = merge(local.common_tags, {
-        Name = format("%s-ebs", local.web_name)
+      Name = format("%s-ebs", local.web_name)
     })
   }
 
@@ -31,8 +31,8 @@ resource "aws_instance" "web-app" {
   }
 
   tags = merge(local.common_tags, {
-    Name                = local.web_name,
-    OS                  = "Centos",
-    Backup              = "DailyBackup" # TODO: Set Backup Rules
+    Name   = local.web_name,
+    OS     = "Centos",
+    Backup = "DailyBackup" # TODO: Set Backup Rules
   })
 }

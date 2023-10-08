@@ -1,6 +1,6 @@
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.14.2"
+  version = "5.1.1"
   # insert the 14 required variables here
   name                             = format("%s-%s-VPC", var.project, var.environment)
   cidr                             = var.cidr
@@ -11,13 +11,13 @@ module "vpc" {
   public_subnets                   = [var.Public_Subnet_AZA_1, var.Public_Subnet_AZB_2]
   private_subnets                  = [var.App_Subnet_AZA, var.App_Subnet_AZB]
   # intra_subnets                    = [var.Data_Subnet_AZ1, var.Data_Subnet_AZ2] //this is subnet only route to local vpc
-  database_subnets                 = [var.Data_Subnet_AZA, var.Data_Subnet_AZB] // subnet db route to nat
+  database_subnets = [var.Data_Subnet_AZA, var.Data_Subnet_AZB] // subnet db route to nat
   # Nat Gateway
   enable_nat_gateway = true
   single_nat_gateway = true #if true, nat gateway only create one
   # Reuse NAT IPs
-  reuse_nat_ips         = true                         # <= if true, Skip creation of EIPs for the NAT Gateways
-  external_nat_ip_ids   = [aws_eip.eip-nat-sandbox.id] #attach eip from manual create eip
+  reuse_nat_ips         = true                 # <= if true, Skip creation of EIPs for the NAT Gateways
+  external_nat_ip_ids   = [aws_eip.eip-nat.id] #attach eip from manual create eip
   public_subnet_suffix  = "public"
   private_subnet_suffix = "private"
   intra_subnet_suffix   = "db"
@@ -39,10 +39,10 @@ module "vpc" {
 }
 
 //eip for nat
-resource "aws_eip" "eip-nat-sandbox" {
+resource "aws_eip" "eip-nat" {
   vpc = true
   tags = merge(local.common_tags, {
-    Name = format("%s-prod-EIP", var.project)
+    Name = format("%s-%s-EIP", var.project, var.environment)
   })
 }
 
