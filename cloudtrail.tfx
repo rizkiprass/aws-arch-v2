@@ -1,14 +1,14 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_cloudtrail" "mgmt-event-cloudtrail" {
-  name                          = "test-dev-trails"
+  name                          = "${var.project}-trails"
   s3_bucket_name                = aws_s3_bucket.mgmt-ct-bucket.id
   s3_key_prefix                 = "mgmt"
   include_global_service_events = false
 }
 
 resource "aws_s3_bucket" "mgmt-ct-bucket" {
-  bucket        = "test-poc-mgmt-trail-bucket-723"
+  bucket        = "${var.project}-mgmt-trail-bucket"
   force_destroy = true
 }
 

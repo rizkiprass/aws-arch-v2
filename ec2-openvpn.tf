@@ -46,3 +46,8 @@ resource "aws_eip" "eipovpn" {
     Name = format("%s-EIP", local.openvpn_name)
   })
 }
+
+resource "aws_eip" "mikrotik-eip" {
+  instance = aws_instance.mikrotik.id
+  domain   = "vpc"
+}

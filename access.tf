@@ -20,3 +20,10 @@ terraform {
     }
   }
 }
+
+#provider "aws" {
+#  region     = "eu-west-3"
+#  profile    = "sandbox-ics"
+#  access_key = ""
+#  secret_key = ""
+#}
