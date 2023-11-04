@@ -28,6 +28,14 @@ resource "aws_security_group" "db-sg" {
     }
   }
 
+    egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1" //all traffic
+    cidr_blocks = [
+    "0.0.0.0/0"]
+  }
+
     lifecycle {
     create_before_destroy = true
   }
