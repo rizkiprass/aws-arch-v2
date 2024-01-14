@@ -1,5 +1,5 @@
 locals {
-  openvpn_name = format("%s-%s-openvpn", var.customer, var.environment)
+  openvpn_name = format("%s-%s-openvpn", var.project, var.environment)
 }
 
 //AWS Instance OpenVPN AZ A Resource
@@ -30,6 +30,8 @@ resource "aws_instance" "openvpn" {
   lifecycle {
     prevent_destroy = true
   }
+
+  depends_on = [module.vpc.natgw_ids]
 
   tags = merge(local.common_tags, {
     Name   = local.openvpn_name,
