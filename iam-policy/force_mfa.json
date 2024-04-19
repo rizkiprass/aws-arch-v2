@@ -1,0 +1,117 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAllUsersToListAccounts",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListAccountAliases",
+                "iam:ListUsers"
+            ],
+            "Resource": [
+                "arn:aws:iam::803414270911:user/*"
+            ]
+        },
+        {
+            "Sid": "AllowIndividualUserToSeeTheirAccountInformation",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ChangePassword",
+                "iam:CreateLoginProfile",
+                "iam:DeleteLoginProfile",
+                "iam:GetAccountPasswordPolicy",
+                "iam:GetAccountSummary",
+                "iam:GetLoginProfile",
+                "iam:UpdateLoginProfile"
+            ],
+            "Resource": [
+                "arn:aws:iam::803414270911:user/${aws:username}"
+            ]
+        },
+        {
+            "Sid": "AllowIndividualUserToListTheirMFA",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListVirtualMFADevices",
+                "iam:ListMFADevices",
+                "iam:GetUser"
+            ],
+            "Resource": [
+                "arn:aws:iam::803414270911:mfa/${aws:username}",
+                "arn:aws:iam::803414270911:user/${aws:username}"
+            ]
+        },
+        {
+            "Sid": "AllowIndividualUserToManageTheirMFA",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateVirtualMFADevice",
+                "iam:DeactivateMFADevice",
+                "iam:DeleteVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:ResyncMFADevice"
+            ],
+            "Resource": [
+                "arn:aws:iam::803414270911:mfa/${aws:username}",
+                "arn:aws:iam::803414270911:user/${aws:username}"
+            ]
+        },
+        {
+            "Sid": "DenyAllWithoutMFA",
+            "Effect": "Deny",
+            "NotAction": [
+                "iam:ListAccountAliases",
+                "iam:ListUsers",
+                "iam:GetAccountPasswordPolicy",
+                "iam:GetAccountSummary",
+                "iam:ChangePassword",
+                "iam:CreateLoginProfile",
+                "iam:DeleteLoginProfile",
+                "iam:GetLoginProfile",
+                "iam:UpdateLoginProfile",
+                "iam:ListVirtualMFADevices",
+                "iam:ListMFADevices",
+                "iam:GetUser",
+                "iam:CreateVirtualMFADevice",
+                "iam:DeactivateMFADevice",
+                "iam:DeleteVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:ResyncMFADevice"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "BoolIfExists": {
+                    "aws:MultiFactorAuthPresent": "false"
+                }
+            }
+        },
+        {
+            "Sid": "DenyOtherUsersSettingWithoutMFA",
+            "Effect": "Deny",
+            "Action": [
+                "iam:ChangePassword",
+                "iam:CreateLoginProfile",
+                "iam:DeleteLoginProfile",
+                "iam:GetLoginProfile",
+                "iam:UpdateLoginProfile",
+                "iam:ListVirtualMFADevices",
+                "iam:ListMFADevices",
+                "iam:GetUser",
+                "iam:CreateVirtualMFADevice",
+                "iam:DeactivateMFADevice",
+                "iam:DeleteVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:ResyncMFADevice"
+            ],
+            "NotResource": [
+                "arn:aws:iam::803414270911:mfa/*",
+                "arn:aws:iam::803414270911:user/${aws:username}"
+            ],
+            "Condition": {
+                "BoolIfExists": {
+                    "aws:MultiFactorAuthPresent": "false"
+                }
+            }
+        }
+    ]
+}
