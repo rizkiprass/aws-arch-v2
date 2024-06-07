@@ -45,3 +45,42 @@ resource "aws_security_group" "web-app-sg" {
     Name = local.sg_web_name
   })
 }
+
+##############################################
+resource "aws_security_group" "application-sg" {
+  name        = format("%s-%s-app-sg", var.project, var.environment)
+  description = "Application Security Group"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.cidr]
+    description = "ssh"
+  }
+
+  ingress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb-sg.id] # Referencing to ALB SG
+    description     = "open to ALB APP"
+  }
+
+  ingress {
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb-sg.id] # Referencing to ALB SG
+    description     = "open to ALB APP"
+  }
+
+  #Allow outgoing traffic to anywhere
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
