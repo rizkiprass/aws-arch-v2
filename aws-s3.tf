@@ -41,6 +41,7 @@
 ####static web s3
 resource "aws_s3_bucket" "cms" {
   bucket = "cms.rp-server.site"
+  #bucket = format("%s-%s-bucket", var.customer, var.environment)
 
   tags = merge(local.common_tags, {
     Name = format("%s-%s-cms.rp-server.site", var.customer, var.environment),
